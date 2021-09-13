@@ -12,7 +12,7 @@ Bid.init(
         autoIncrement: true,
       },
       project_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'project',
@@ -20,7 +20,7 @@ Bid.init(
         }
       },
       poster_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'poster',
@@ -28,17 +28,12 @@ Bid.init(
         }
       },
       bidder_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'bidder',
             key: 'id',
         }
-      },
-      date_created: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
       },
       bid_amount: {
         type: DataTypes.INTEGER,
