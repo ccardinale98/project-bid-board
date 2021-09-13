@@ -1,3 +1,10 @@
-{
-    
-}
+[
+    {
+        "id": 1,
+        "project_name": "projectA",
+        "description": "This is a description.",
+        "date_created": "01/01/1111",
+        "lowest_bid": 5000000,
+        "user_id": 2
+    }
+]
