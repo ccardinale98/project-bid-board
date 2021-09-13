@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS projectBid_db;
+CREATE DATABASE projectBid_db;
