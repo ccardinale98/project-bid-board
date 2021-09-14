@@ -47,4 +47,5 @@ router.post('/posterLogin', async (req, res) => {
     }
 });
 
+
 module.exports = router;

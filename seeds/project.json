@@ -1,9 +1,8 @@
 [
     {
-        "id": 3,
         "project_name": "projectA",
         "description": "This is a description.",
         "poster_id": 1,
-        "bidder_id": 2
+        "bidder_id": 1
     }
 ]

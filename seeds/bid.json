@@ -1,9 +1,7 @@
 [
     {
-        "id": 4,
-        "project_id": 3,
-        "poster_id": 1,
-        "bidder_id": 2,
+        "project_id": 1,
+        "bidder_id": 1,
         "bid_amount": 5000000
     }
 ]

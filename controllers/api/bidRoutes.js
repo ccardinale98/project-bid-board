@@ -9,27 +9,27 @@ const {
 const withAuth = require('../../utils/auth');
 
 //post bids
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const newBid = await Bid.create({
+            // poster_id: req.body.poster_id,
             project_id: req.body.project_id,
             bidder_id: req.body.bidder_id,
             bid_amount: req.body.bid_amount
         });
 
-        res.status(200).json(newProject);
+        res.status(200).json(newBid);
     } catch (err) {
         res.status(400).json(err);
     }
 });
 
 //delete bids
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const bidData = await Bid.destroy({
             where: {
                 id: req.params.id,
-                project_id: req.session.project_id,
             },
         });
 
@@ -46,6 +46,16 @@ router.delete('/:id', withAuth, async (req, res) => {
     }
 });
 
+router.get('/bids', async (req, res) => {
+    try {
+      const bid = await Bid.findAll();
+  
+      const bids = bid.map((bid) => bid.get({ plain: true }));
+      res.status(200).json(bids)
 
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
 module.exports = router;
