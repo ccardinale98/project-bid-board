@@ -1,7 +1,22 @@
 [
     {
         "project_id": 1,
-        "bidder_id": 1,
-        "bid_amount": 5000000
+        "user_id": 4,
+        "bid_amount": 10000
+    },
+    {
+        "project_id": 2,
+        "user_id": 3,
+        "bid_amount": 15000
+    },
+    {
+        "project_id": 3,
+        "user_id": 4,
+        "bid_amount": 50000000
+    },
+    {
+        "project_id": 3,
+        "user_id": 3,
+        "bid_amount": 45000000
     }
 ]

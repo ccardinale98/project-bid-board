@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "company_name": "Hamilton Township Public Schools",
+        "email": "administration@htsd.edu",
+        "password": "hamiltonpassword",
+        "is_poster": true
+    },
+    {
+        "id": 2,
+        "company_name": "Trenton Municipal Government",
+        "email": "council@trenton.gov",
+        "password": "trentonpassword",
+        "is_poster": true
+    },
+    {
+        "id": 3,
+        "company_name": "Joe's Roofing",
+        "email": "joe123@gmail.com",
+        "password": "joepassword",
+        "is_poster": false
+    },
+    {
+        "id": 4,
+        "company_name": "Window Repair Inc.",
+        "email": "windowrepair@gmail.com",
+        "password": "windowpassword",
+        "is_poster": false
+    }
+]
