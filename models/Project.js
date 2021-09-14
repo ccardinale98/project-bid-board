@@ -28,6 +28,7 @@ Project.init(
       },
       bidder_id: {
         type: DataTypes.INTEGER,
+        allowNull: true,
         references: {
           model: 'bidder',
           key: 'id',

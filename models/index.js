@@ -17,7 +17,6 @@ Project.belongsTo(Poster, {
 // ---------------------------------------------------------
 Bidder.hasMany(Project, {
     foreignKey: 'bidder_id',
-    onDelete: 'CASCADE'
 })
 
 Project.belongsTo(Bidder, {
@@ -38,7 +37,6 @@ Bid.belongsTo(Project, {
 // ---------------------------------------------------------
 Bidder.hasMany(Bid, {
     foreignKey: 'bidder_id',
-    onDelete: 'CASCADE'
 })
 
 Bid.belongsTo(Bidder, {
@@ -47,12 +45,12 @@ Bid.belongsTo(Bidder, {
 
 //Poster -> Bidder
 // ---------------------------------------------------------
-Poster.hasMany(Bidder, {
-    foreignKey: 'poster_id'
-})
+// Poster.hasMany(Bidder, {
+//     foreignKey: 'poster_id'
+// })
 
-Bidder.belongsTo(Poster, {
-    foreignKey: 'poster_id'
-})
+// Bidder.belongsTo(Poster, {
+//     foreignKey: 'poster_id'
+// })
 
 module.exports = { Poster, Bidder, Project, Bid }
