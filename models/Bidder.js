@@ -38,13 +38,13 @@ Bidder.init(
     },
     {
       hooks: {
-        beforeCreate: async (newUserData) => {
-          newUserData.password = await bcrypt.hash(newUserData.password, 10);
-          return newUserData;
+        beforeCreate: async (newBidderData) => {
+          newBidderData.password = await bcrypt.hash(newBidderData.password, 10);
+          return newBidderData;
         },
-        beforeUpdate: async (updatedUserData) => {
-          updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
-          return updatedUserData;
+        beforeUpdate: async (updatedBidderData) => {
+          updatedBidderData.password = await bcrypt.hash(updatedBidderData.password, 10);
+          return updatedBidderData;
         },
       },
       sequelize,

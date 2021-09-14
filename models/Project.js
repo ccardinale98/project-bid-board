@@ -19,19 +19,6 @@ Project.init(
       description: {
         type: DataTypes.STRING,
       },
-      date_created: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
-      lowest_bid: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        references: {
-            model: 'bid',
-            key: 'bid_amount',
-        }
-      },
       poster_id: {
         type: DataTypes.INTEGER,
         references: {
@@ -41,11 +28,12 @@ Project.init(
       },
       bidder_id: {
         type: DataTypes.INTEGER,
+        allowNull: true,
         references: {
           model: 'bidder',
           key: 'id',
-        },
-      },
+        }
+      }
     },
     {
       sequelize,

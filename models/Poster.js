@@ -38,13 +38,13 @@ Poster.init(
     },
     {
       hooks: {
-        beforeCreate: async (newUserData) => {
-          newUserData.password = await bcrypt.hash(newUserData.password, 10);
-          return newUserData;
+        beforeCreate: async (newPosterData) => {
+          newPosterData.password = await bcrypt.hash(newPosterData.password, 10);
+          return newPosterData;
         },
-        beforeUpdate: async (updatedUserData) => {
-          updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
-          return updatedUserData;
+        beforeUpdate: async (updatedPosterData) => {
+          updatedPosterData.password = await bcrypt.hash(updatedPosterData.password, 10);
+          return updatedPosterData;
         },
       },
       sequelize,
