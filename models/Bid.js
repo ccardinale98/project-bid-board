@@ -19,19 +19,11 @@ Bid.init(
             key: 'id',
         }
       },
-      // poster_id: {
-      //   type: DataTypes.INTEGER,
-      //   allowNull: true,
-      //   references: {
-      //       model: 'poster',
-      //       key: 'id',
-      //   }
-      // },
-      bidder_id: {
+      user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'bidder',
+            model: 'user',
             key: 'id',
         }
       },
