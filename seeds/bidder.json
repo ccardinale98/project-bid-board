@@ -1,8 +1,8 @@
 [
     {
-        "id": 1,
+        "id": 2,
         "company_name": "bidder A",
         "email": "bidderA@email.com",
-        "password": "bidderApassword"
+        "password": "bidderAp"
     }
 ]
