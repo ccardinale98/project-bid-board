@@ -2,13 +2,13 @@ const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
-class Poster extends Model {
+class User extends Model {
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
 
-Poster.init(
+User.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -35,24 +35,27 @@ Poster.init(
           len: [8],
         },
       },
+      is_poster: {
+        type: DataTypes.BOOLEAN,
+      },
     },
     {
       hooks: {
-        beforeCreate: async (newPosterData) => {
-          newPosterData.password = await bcrypt.hash(newPosterData.password, 10);
-          return newPosterData;
+        beforeCreate: async (newUserData) => {
+          newUserData.password = await bcrypt.hash(newUserData.password, 10);
+          return newUserData;
         },
-        beforeUpdate: async (updatedPosterData) => {
-          updatedPosterData.password = await bcrypt.hash(updatedPosterData.password, 10);
-          return updatedPosterData;
+        beforeUpdate: async (updatedUserData) => {
+          updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+          return updatedUserData;
         },
       },
       sequelize,
       timestamps: false,
       freezeTableName: true,
       underscored: true,
-      modelName: 'poster',
+      modelName: 'user',
     }
   );
   
-  module.exports = Poster;
+  module.exports = User;

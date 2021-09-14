@@ -2,19 +2,17 @@
 const router = require('express').Router();
 const {
     Bid,
-    Bidder,
-    Poster,
+    User,
     Project
 } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 //post bids
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
     try {
         const newBid = await Bid.create({
-            // poster_id: req.body.poster_id,
             project_id: req.body.project_id,
-            bidder_id: req.body.bidder_id,
+            user_id: req.body.bidder_id,
             bid_amount: req.body.bid_amount
         });
 
@@ -25,7 +23,7 @@ router.post('/', async (req, res) => {
 });
 
 //delete bids
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
     try {
         const bidData = await Bid.destroy({
             where: {

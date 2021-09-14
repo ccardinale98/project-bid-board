@@ -22,17 +22,9 @@ Project.init(
       poster_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'poster',
+          model: 'user',
           key: 'id',
         },
-      },
-      bidder_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'bidder',
-          key: 'id',
-        }
       }
     },
     {
