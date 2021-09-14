@@ -2,11 +2,11 @@ const router = require('express').Router();
 const { Project } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
       const Projects = await Project.create({
         ...req.body,
-        project_id: req.session.project_id,
+        // project_id: req.session.project_id,
       });
   
       res.status(200).json(Projects);
@@ -15,24 +15,35 @@ router.post('/', withAuth, async (req, res) => {
     }
   });
 
-  router.delete('/:id', withAuth, async (req, res) => {
+  router.delete('/:id', async (req, res) => {
     try {
-      const Projects = await Project.destroy({
+      const projects = await Project.destroy({
         where: {
-          project_id: req.params.id,
-          bidder_id: req.session.bidder_id,
+          id: req.params.id
         },
       });
   
-      if (!project) {
+      if (!projects) {
         res.status(404).json({ message: 'No project found with this id!' });
         return;
       }
   
-      res.status(200).json(project);
+      res.status(200).json(projects);
     } catch (err) {
       res.status(500).json(err);
     }
   });
+
+  router.get('/projects', async (req, res) => {
+    try {
+      const project = await Project.findAll();
+  
+      const projects = project.map((project) => project.get({ plain: true }));
+      res.status(200).json(projects)
+
+    } catch (err) {
+      res.status(500).json(err);
+    }
+});
   
   module.exports = router;
