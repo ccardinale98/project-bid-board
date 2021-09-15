@@ -8,7 +8,7 @@ const {
 const withAuth = require('../../utils/auth');
 
 //post bids
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const newBid = await Bid.create({
             project_id: req.body.project_id,
@@ -23,7 +23,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 //delete bids
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const bidData = await Bid.destroy({
             where: {

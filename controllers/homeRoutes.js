@@ -16,10 +16,10 @@ router.get('/', async (req, res) => {
     });
 
     const users = user.map((user) => user.get({ plain: true }));
-    res.render('homepage', { 
-      users, 
-      logged_in: req.session.logged_in 
-    });
+    // res.render('homepage', { 
+    //   users, 
+    //   logged_in: req.session.logged_in 
+    // });
     
     res.status(200).json(users)
   
@@ -43,16 +43,16 @@ router.get('/project/:id', async (req, res) => {
 
     const projects = project.get({ plain: true });
 
-    res.render('project', {
-      ...projects,
-      logged_in: req.session.logged_in
-    });
+    // res.render('project', {
+    //   ...projects,
+    //   logged_in: req.session.logged_in
+    // });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-router.get('/profile', withAuth, async (req, res) => {
+router.get('/profile', async (req, res) => {
   try {
     const user = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
@@ -68,22 +68,22 @@ router.get('/profile', withAuth, async (req, res) => {
 
     const users = user.get({ plain: true });
 
-    res.render('profile', {
-      ...users,
-      logged_in: true
-    });
+    // res.render('profile', {
+    //   ...users,
+    //   logged_in: true
+    // });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-router.get('/login', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('/profile');
-    return;
-  }
+// router.get('/login', (req, res) => {
+//   if (req.session.logged_in) {
+//     res.redirect('/profile');
+//     return;
+//   }
 
-  res.render('login');
-});
+//   res.render('login');
+// });
 
 module.exports = router;

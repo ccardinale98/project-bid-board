@@ -19,12 +19,12 @@ router.post('/', async (req, res) => {
     try {
         const user = await User.create(req.body);
 
-        req.session.save(() => {
-            req.session.user_id = user.id;
-            req.session.logged_in = true;
+        // req.session.save(() => {
+        //     req.session.user_id = user.id;
+        //     req.session.logged_in = true;
 
-            res.status(200).json(user);
-        })
+        //     res.status(200).json(user);
+        // })
     } catch (err) {
         res.status(400).json(err);
     }
@@ -68,26 +68,26 @@ router.post('/login', async (req, res) => {
             return;
         }
 
-        req.session.save(() => {
-            req.session.user_id = user.id;
-            req.session.logged_in = true;
+        // req.session.save(() => {
+        //     req.session.user_id = user.id;
+        //     req.session.logged_in = true;
 
-            res.json({ user: user, message: 'Login Succesful' });
-        });
+        //     res.json({ user: user, message: 'Login Succesful' });
+        // });
     } catch (err) {
         res.status(404).end();
     }
 });
 
 //Log out a User
-router.post('/logout', (req, res) => {
-    if (req.session.logged_in) {
-      req.session.destroy(() => {
-        res.status(204).end();
-      });
-    } else {
-      res.status(404).end();
-    }
-});
+// router.post('/logout', (req, res) => {
+//     if (req.session.logged_in) {
+//       req.session.destroy(() => {
+//         res.status(204).end();
+//       });
+//     } else {
+//       res.status(404).end();
+//     }
+// });
 
 module.exports = router;
