@@ -1,0 +1,110 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bid Board Login</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/loginhomestyle.css">
+    <title>Bid Board</title>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to the Project Bid Board!</h1>
+        <p>
+            Place your projects as well as bid on the projects here! May the best bid win!!
+        </p>
+    </header>
+
+    <main>
+        <aside>
+            <p>Sign-up or login to get access to the bidding board.</p>
+            <p>Login as a 'Poster' to post the projects that you would like to float.</p>
+            <p>Login as a 'Bidder' to bid on the projects that you would like to be contracted for.</p>
+        </aside>
+
+        <div class="container justify-content-around">
+            <div class="card">
+                <header>Signup</header>
+                <!-- <img src="./images/signup.PNG" alt="sign up box" /> -->
+                <p>Signup for a new account here</p>
+                <section>
+                    <form>
+                        <p>
+                            <label for="name">Company Name:</label>
+                            <input class="text-input" id="username" type="text" placeholder="Company Name" />
+                        </p>
+                        <p>
+                            <label for="username">E-mail / Username:</label>
+                            <input class="text-input" id="email" type="text" placeholder="me@example.com" />
+                        </p>
+                        <p>
+                            <label for="password">Password:</label>
+                            <input class="text-input" type="text" id="password" placeholder="password"></input>
+                        </p>
+                        <p class="flex-row">
+                            <label for="role">Poster/Bidder:</label>
+                            <select id="role">
+                                <option>Poster</option>
+                                <option selected>Bidder</option>
+                            </select>
+                        </p>
+                </section>
+                <section>
+                    <button>Signup</button>
+                </section>
+
+                </form>
+
+            </div>
+            <div class="card">
+                <header>Login</header>
+                <p>Login using your existing account</p>
+                <!-- <img src="./images/login.PNG" alt="login box" /> -->
+                <form>
+                    <p>
+                        <label for="username">E-mail / Username:</label>
+                        <input class="text-input" id="email" type="text" placeholder="me@example.com" />
+                    </p>
+                    <p>
+                        <label for="password">Password:</label>
+                        <input class="text-input" type="text" id="password" placeholder="password"></input>
+                    </p>
+                    <p class="flex-row">
+                        <label for="role">Poster/Bidder:</label>
+                        <select id="role">
+                            <option>Poster</option>
+                            <option selected>Bidder</option>
+                        </select>
+                    </p>
+                    </section>
+                    <section id="button-center">
+                        <button>Login</button>
+                        <div id="msg"></div>
+                    </section>
+
+            </div>
+        </div>
+
+
+    </main>
+
+    <footer>
+        <p>
+            Group 2 Project 2!
+        </p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="./js/loginhomescript.js"></script>
+
+</body>
+
+</html>
