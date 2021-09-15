@@ -131,7 +131,7 @@ const loadBids = async () => {
             
             loadCertainProject()
             var bidBoxEl = document.createElement('div')
-            bidBoxEl.className = 'project-box'
+            bidBoxEl.className = 'bid-box'
             bidBoxEl.setAttribute('id', `${list.project_id}-bid-box`)
     
             var descEl = document.createElement('p1');
@@ -209,11 +209,17 @@ const updateBid = async (amt) => {
     project_id = project_id[0]
     bid_amount = amt
 
-    const response = await fetch(`/api/bid/update/${bidToUpdate}`, {
-        method: 'PUT',
-        body: JSON.stringify({ bid_amount }),
-        headers: { 'Content-Type': 'application/json' },
-    })
+    if (bid_amount > 0) {
+        const response = await fetch(`/api/bid/update/${bidToUpdate}`, {
+            method: 'PUT',
+            body: JSON.stringify({ bid_amount }),
+            headers: { 'Content-Type': 'application/json' },
+        })
+    } else {
+        const repsonse = await fetch(`/api/bid/${bidToUpdate}`, {
+            method: 'DELETE',
+        })
+    }
     
     console.log(response.statusText)
 }

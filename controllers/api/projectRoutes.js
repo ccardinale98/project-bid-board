@@ -6,7 +6,7 @@ router.post('/', async (req, res) => {
     try {
       const Projects = await Project.create({
         ...req.body,
-        // project_id: req.session.project_id,
+        project_id: req.session.project_id,
       });
   
       res.status(200).json(Projects);
@@ -40,10 +40,10 @@ router.post('/', async (req, res) => {
   
       const projects = project.get({ plain: true });
       res.status(200).json(projects)
-      // res.render('project', {
-      //   ...projects,
-      //   logged_in: req.session.logged_in
-      // });
+      res.render('project', {
+        ...projects,
+        logged_in: req.session.logged_in
+      });
     } catch (err) {
       res.status(500).json(err);
     }
