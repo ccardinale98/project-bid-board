@@ -5,6 +5,8 @@ var project_id = [];
 console.log(project_id)
 var currentBids = [];
 console.log(currentBids)
+var bidToUpdate = [];
+console.log(bidToUpdate)
 
 const loadProjects = async () => {
     const response = await fetch(`/api/project/projects`, {
@@ -37,7 +39,7 @@ const loadProjects = async () => {
         bidButtonEl.innerHTML = 'Place Bid'
         projectBoxEl.append(bidButtonEl)
 
-        $('.place-bid-button').on('click', function() {
+        bidButtonEl.addEventListener('click', function() {
             if (currentBids.includes(parseInt(this.id.charAt(0))) == true) {
                 console.log('already have bid');
                 modal2();
@@ -45,18 +47,25 @@ const loadProjects = async () => {
                 console.log(this.id.charAt(0));
                 console.log(currentBids)
                 modal();
+                project_id.push(this.id.charAt(0))
             }
-        })
-
-        $('.place-bid-button').on('click', function() {
-            console.log(this.id)
-            console.log(this.id.charAt(0))
-            project_id.push(this.id.charAt(0))
         })
 
         $('#project-list').append(projectBoxEl)
     }
 }
+
+$('.place-bid-button').on('click', function() {
+    if (currentBids.includes(parseInt(this.id.charAt(0))) == true) {
+        console.log('already have bid');
+        modal2();
+    } else {
+        console.log(this.id.charAt(0));
+        console.log(currentBids)
+        modal();
+        project_id.push(this.id.charAt(0))
+    }
+})
 
 function modal() {
     console.log('Modal is working!')
@@ -66,6 +75,11 @@ function modal() {
 function modal2() {
     console.log('Error Modal working!')
     $('#modalLoginForm2').modal('toggle') 
+}
+
+function modal3() {
+    console.log('Update Modal working!')
+    $('#modalLoginForm3').modal('toggle') 
 }
 
 const loadUser = async () => {
@@ -128,6 +142,19 @@ const loadBids = async () => {
             statusEl.innerHTML = `Bid Status: ${list.status}`;
             statusEl.setAttribute('id', `${list.project_id}-bid-status`)
             bidBoxEl.append(statusEl)
+
+            var updateButtonEl = document.createElement('button')
+            updateButtonEl.type = 'button'
+            updateButtonEl.setAttribute('id', `${list.id}-update-button`)
+            updateButtonEl.setAttribute('class', `update-bid-button`)
+            updateButtonEl.innerHTML = 'Update Bid'
+            bidBoxEl.append(updateButtonEl)
+
+            updateButtonEl.addEventListener('click', function() {
+                bidToUpdate.push(this.id.charAt(0))
+                console.log(this.id.charAt(0))
+                modal3()
+            })
             
             currentBids.push(list.project_id)
 
@@ -162,6 +189,29 @@ const createBid = async (amt) => {
     const response = await fetch('/api/bid/', {
         method: 'POST',
         body: JSON.stringify({ project_id, user_id, bid_amount }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    
+    console.log(response.statusText)
+}
+
+$('#bid-update').on('click', function() {
+    console.log('hello');
+    var bid_amount = $('#defaultForm-number2').val();
+    console.log(bid_amount);
+    updateBid(bid_amount);
+    location.reload();
+})
+
+const updateBid = async (amt) => {
+    console.log(amt)
+    console.log(project_id[0])
+    project_id = project_id[0]
+    bid_amount = amt
+
+    const response = await fetch(`/api/bid/update/${bidToUpdate}`, {
+        method: 'PUT',
+        body: JSON.stringify({ bid_amount }),
         headers: { 'Content-Type': 'application/json' },
     })
     

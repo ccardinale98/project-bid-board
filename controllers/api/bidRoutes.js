@@ -44,6 +44,21 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.put('/update/:id', async (req, res) => {
+    try {
+        const bid = await Bid.update(req.body, {
+            where: {
+                id: req.params.id
+            },
+        });
+
+        res.status(200).json(bid);
+    } catch (err) {
+        console.log(err)
+        res.status(500).json(err);
+    }
+})
+
 router.get('/bids', async (req, res) => {
     try {
       const bid = await Bid.findAll();
