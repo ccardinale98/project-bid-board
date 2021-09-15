@@ -2,13 +2,13 @@ const router = require('express').Router();
 const { User, Project, Bid } = require('../models');
 const withAuth = require('../utils/auth');
 
-router.get('/', async (req, res) => {
+router.get('/projects', async (req, res) => {
   try {
     const user = await Project.findAll({
       include: [
         {
           model: User,
-          attributes: ['company_name'],
+          attributes: ['company_name', 'id'],
           through: Bid,
           as: 'bids'
         },
@@ -42,7 +42,7 @@ router.get('/project/:id', async (req, res) => {
     });
 
     const projects = project.get({ plain: true });
-
+    res.status(200).json(projects)
     // res.render('project', {
     //   ...projects,
     //   logged_in: req.session.logged_in

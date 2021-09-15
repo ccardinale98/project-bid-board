@@ -34,6 +34,21 @@ router.post('/', async (req, res) => {
     }
   });
 
+  router.get('/projects/:id', async (req, res) => {
+    try {
+      const project = await Project.findByPk(req.params.id, {});
+  
+      const projects = project.get({ plain: true });
+      res.status(200).json(projects)
+      // res.render('project', {
+      //   ...projects,
+      //   logged_in: req.session.logged_in
+      // });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
   router.get('/projects', async (req, res) => {
     try {
       const project = await Project.findAll();
