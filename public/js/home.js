@@ -1,19 +1,38 @@
-alert("Welcome to Project Bid Board!");
+// alert("Welcome to Project Bid Board!");
 
-var fetchSignupButton = document.getElementById('signup-button');
-var fetchLoginButton = document.getElementById('login-button');
-var signupSuccessAlert = document.getElementById('signupSuccessMsg');
-var testMessage = ('test message');
+$('#signup-button').on('click', function() { 
+    var company_name = $('#username').val();
+    var email = $('#email').val();
+    var password = $('#password').val();
+    var role = $('#role').val().toLowerCase()
 
+    createUser(company_name, email, password, role)
+})
 
+const createUser = async (company_name, email, password, role) => {
+    const response = await fetch(`/create`, {
+        method: 'POST',
+        body: JSON.stringify({ company_name, email, password, role }),
+        headers: { 'Content-Type': 'application/json' },
+    })
 
-function messageSend() {
-    fetch(testMessage)
-        .then (function(response){
-            console.log(response);
-            var createMessage = document.createElement('p');
-            createMessage.textContent = ("signup successful!");
-            signupSuccessAlert.appendChild(createMessage);
-        });
-};
-fetchLoginButton.addEventListener('click', messageSend);
+    console.log(response.statusText)
+}
+
+$('#login-button').on('click', function() {
+    var email = $('#login-email').val()
+    var password = $('#login-password').val()
+
+    loginUser(email, password)
+})
+
+const loginUser = async (email, password) => {
+    const response = await fetch (`/login`, {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+
+    console.log(response.statusText)
+}
+
