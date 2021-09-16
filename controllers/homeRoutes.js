@@ -6,16 +6,22 @@ const authBidder = require('../utils/auth');
 const path = require('path')
 
 router.get('/', (req, res) => {
-    console.log('GET /');
-    if (req.session.logged_in && req.session.is_poster == true) {
-      res.redirect('/poster')
-      return;
-    } else if (req.session.logged_in && req.session.is_poster == false) {
-      res.redirect('/bidder')
-      return;
-    }
-
+  console.log('GET /');
+  console.log(req.session.logged_in);
+  console.log(req.session.is_poster);
+  
+  if (req.session.logged_in == true && req.session.is_poster == true) {
+    console.log('LOGGED IN AND POSTER');
+    res.redirect('/poster')
+    return;
+  } else if (req.session.logged_in == true && req.session.is_poster == false) {
+    console.log('LOGGED IN AND BIDDER');
+    res.redirect('/bidder')
+    return;
+  } else {
+    console.log('NOT LOGGED IN');
     res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
+  }
 });
 
 router.post('/create', async (req, res) => {
@@ -59,19 +65,32 @@ router.post('/login', async (req, res) => {
         console.log(user);
         console.log(user.id);
         console.log(user.is_poster);
+        
         req.session.user_id = user.id;
-          req.session.is_poster = user.is_poster;
-          req.session.logged_in = true;
+        req.session.is_poster = user.is_poster;
+        req.session.logged_in = true;
+        
+        console.log(req.session.logged_in)
+        
+        if (req.session.is_poster == false) {
+          console.log('---------------------------')
+          console.log(req.session.is_poster)
+          console.log(path.join(__dirname, '/../public/bidder.html'))
           
-          if (req.session.is_poster == false) {
-            console.log(path.resolve(__dirname + '/../public/' + 'bidder.html'))
-            res.sendFile(path.resolve(__dirname + '/../public/' + 'bidder.html'))
-          } else {
-          console.log(path.resolve(__dirname + '/../public/' + 'home.html'))
-          res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
-          }
+          res.redirect('/bidder')
+        } else if (req.session.is_poster == true) {
+          console.log('---------------------------')
+          console.log(req.session.is_poster)
+          console.log(path.join(__dirname, '/../public/poster.html'))
+          
+          res.redirect('/poster')
+        } else {
+          console.log('not logged in')
+          
+          res.redirect('/')
+        }
       });
-      // res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
+
   } catch (err) {
     console.log(err);
     res.status(404).end();
@@ -103,8 +122,6 @@ router.get('/poster', withAuth, authPoster, async (req, res) => {
       ],
     });
 
-    const user = userData.get({ plain: true });
-
     res.sendFile(path.resolve(__dirname + '/../public/' + 'poster.html'))
   } catch (err) {
     res.status(500).json(err);
@@ -112,6 +129,9 @@ router.get('/poster', withAuth, authPoster, async (req, res) => {
 });
 
 router.get('/bidder', async (req, res) => {
+  console.log('GET /bidder')
+  console.log(req.session.user_id)
+  
   try {
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
@@ -125,7 +145,12 @@ router.get('/bidder', async (req, res) => {
       ],
     });
 
-    res.sendFile(path.resolve(__dirname + '/../public/' + 'bidder.html'))
+    console.log(path.join(__dirname, '/../public', '/bidder.html'))
+    res.sendFile(path.join(__dirname, '/../public', '/bidder.html',), null, function (err) {
+      if (err) {
+        console.log(err)
+      }
+    })
   } catch (err) {
     console.log(err)
     res.status(500).json(err);

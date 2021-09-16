@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Project, User } = require('../../models');
+const { Project, User, Bid } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.post('/', async (req, res) => {
@@ -51,11 +51,12 @@ router.get('/:id', withAuth, async (req, res) => {
     const projects = project.get({ plain: true });
     res.status(200).json(projects)
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 });
 
-router.get('/projects', async (req, res) => {
+router.get('/', async (req, res) => {
   console.log('GET /projects')
   try {
     const project = await Project.findAll();

@@ -12,7 +12,7 @@ console.log(bidToUpdate)
 
 const loadProjects = async () => {
     try{
-    const response = await fetch(`/api/project/projects`, {
+    const response = await fetch(`/api/project/`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     })
