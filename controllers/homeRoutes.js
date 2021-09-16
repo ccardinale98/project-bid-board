@@ -17,6 +17,18 @@ router.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
 });
 
+router.get('/?', (req, res) => {
+  if (req.session.logged_in && req.session.is_poster == true) {
+    res.redirect('/poster')
+    return;
+  } else if (req.session.logged_in && req.session.is_poster == false) {
+    res.redirect('/bidder')
+    return;
+  }
+
+  res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
+});
+
 router.post('/create', async (req, res) => {
   try {
       const user = await User.create(req.body);
@@ -60,6 +72,7 @@ router.post('/login', async (req, res) => {
 
           res.json({ user: user, message: 'Login Succesful' });
       });
+      res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
   } catch (err) {
       res.status(404).end();
   }
@@ -92,7 +105,7 @@ router.get('/poster', withAuth, authPoster, async (req, res) => {
 
     const user = userData.get({ plain: true });
 
-    res.sendFile(path.resolve(__dirname + '/../public/' + 'bidder.html'))
+    res.sendFile(path.resolve(__dirname + '/../public/' + 'poster.html'))
   } catch (err) {
     res.status(500).json(err);
   }
