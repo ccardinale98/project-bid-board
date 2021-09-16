@@ -114,7 +114,7 @@ const loadBids = async () => {
                 console.log(list)
                 console.log('hello')
                 console.log(list.project_id)
-                const responseP = await fetch(`/project/${list.project_id}`, {
+                const responseP = await fetch(`/api/project/${list.project_id}`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                 })

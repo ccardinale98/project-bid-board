@@ -1,4 +1,3 @@
-//bid routes
 const router = require('express').Router();
 const {
     Bid,
@@ -8,11 +7,11 @@ const {
 const withAuth = require('../../utils/auth');
 
 //post bids
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
     try {
         const newBid = await Bid.create({
             project_id: req.body.project_id,
-            user_id: req.body.user_id,
+            user_id: req.session.user_id,
             bid_amount: req.body.bid_amount
         });
 
@@ -23,7 +22,7 @@ router.post('/', async (req, res) => {
 });
 
 //delete bids
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
     try {
         const bidData = await Bid.destroy({
             where: {
@@ -44,7 +43,7 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/update/:id', withAuth, async (req, res) => {
     try {
         const bid = await Bid.update(req.body, {
             where: {
@@ -59,7 +58,7 @@ router.put('/update/:id', async (req, res) => {
     }
 })
 
-router.get('/bids', async (req, res) => {
+router.get('/bids', withAuth, async (req, res) => {
     try {
       const bid = await Bid.findAll();
   

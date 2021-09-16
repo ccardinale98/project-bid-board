@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { User } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // Get all Users
-router.get('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
     try {
       const user = await User.findAll();
   
@@ -21,6 +22,7 @@ router.post('/', async (req, res) => {
 
         req.session.save(() => {
             req.session.user_id = user.id;
+            req.session.is_poster = user.is_poster;
             req.session.logged_in = true;
 
             res.status(200).json(user);
@@ -31,7 +33,7 @@ router.post('/', async (req, res) => {
 });
 
 //Get a single User
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id, {});
 
@@ -70,6 +72,7 @@ router.post('/login', async (req, res) => {
 
         req.session.save(() => {
             req.session.user_id = user.id;
+            req.session.is_poster = user.is_poster;
             req.session.logged_in = true;
 
             res.json({ user: user, message: 'Login Succesful' });
