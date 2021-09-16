@@ -30,6 +30,10 @@ Bid.init(
       bid_amount: {
         type: DataTypes.INTEGER,
         allowNull: false,  
+      },
+      status: {
+        type: DataTypes.TEXT,
+        allowNull: false,  
       }
     },
     {
