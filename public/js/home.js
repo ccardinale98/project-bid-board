@@ -1,16 +1,19 @@
-$('#login').on('click', function(event) {
-    var email = 'joe123@gmail.com'
-    var password = 'joepassword'
-    const login = async (email, password) => {
-        const response = await fetch('/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: { 'Content-Type': 'application/json' },
-        })
-        
-        console.log(response.statusText)
-    }
+alert("Welcome to Project Bid Board!");
 
-    login(email, password);
-    location.reload()
-})
+var fetchSignupButton = document.getElementById('signup-button');
+var fetchLoginButton = document.getElementById('login-button');
+var signupSuccessAlert = document.getElementById('signupSuccessMsg');
+var testMessage = ('test message');
+
+
+
+function messageSend() {
+    fetch(testMessage)
+        .then (function(response){
+            console.log(response);
+            var createMessage = document.createElement('p');
+            createMessage.textContent = ("signup successful!");
+            signupSuccessAlert.appendChild(createMessage);
+        });
+};
+fetchLoginButton.addEventListener('click', messageSend);
