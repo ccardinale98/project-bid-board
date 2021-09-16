@@ -15,22 +15,18 @@ router.post('/', async (req, res) => {
     }
 });
 
-  router.delete('/:id', withAuth, async (req, res) => {
-    try {
-      const projects = await Project.destroy({
-        where: {
-          id: req.params.id
-        },
-      });
-  
-      if (!projects) {
-        res.status(404).json({ message: 'No project found with this id!' });
-        return;
-      }
-      
-      res.status(200).json(projects);
-    } catch (err) {
-      res.status(500).json(err);
+router.delete('/:id', withAuth, async (req, res) => {
+  try {
+    const projects = await Project.destroy({
+      where: {
+        id: req.params.id,
+        poster_id: req.params.user_id,
+      },
+    });
+
+    if (!projects) {
+      res.status(404).json({ message: 'No project found with this id!' });
+      return;
     }
 
     res.status(200).json(projects);
