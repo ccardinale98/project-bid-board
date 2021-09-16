@@ -1,21 +1,102 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="Description" content="Enter your description here"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<title>Title</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bid Board Login</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/loginhomestyle.css">
+    <title>Bid Board</title>
 </head>
+
 <body>
-    <h1>Hello</h1>
-    <button class="btn btn-default" id='login'>Place Bid</button>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-<script src='js/home.js'></script>
+    <header>
+        <h1>Welcome to Project Bid Board!</h1>
+        <p> Place your projects as well as bid on the projects here!  </p>
+        <h4>May the best bid win!!</h4>
+    </header>
+<
+    <main class=row>
+        <aside class= "col-md-12 col-lg-3">
+            <p>Sign-up or login to get access to the bidding board.</p>
+            <p>Login as a <b>'Poster' to post the projects</b> that you would like to float.</p>
+            <p>Login as a <b>'Bidder' to bid on the projects</b> that you would like to be contracted for.</p>
+        </aside>
+
+        <div class="container justify-content-around">
+            <div class="card">
+                <header>Signup</header>
+                <!-- <img src="./images/signup.PNG" alt="sign up box" /> -->
+                <p>Signup for a new account here</p>
+                <section>
+                    <form method="POST">
+                        <p>
+                            <label for="name">Company Name:</label>
+                            <input class="text-input" id="username" type="text" placeholder="Company Name" />
+                        </p>
+                        <p>
+                            <label for="username">E-mail / Username:</label>
+                            <input class="text-input" id="email" type="text" placeholder="me@example.com" />
+                        </p>
+                        <p>
+                            <label for="password">Password:</label>
+                            <input class="text-input" type="text" id="password" placeholder="password"></input>
+                        </p>
+                        <p>
+                            <label for="role">Your role - Poster/Bidder:</label>
+                            <select name ="role" id="role">
+                                <option value="poster">Poster</option>
+                                <option value="bidder">Bidder</option>
+                            </select>
+                        </p>
+                </section>
+                <section>
+                    <button class="btn-lg btn-block" id="signup-button">Signup</button>
+                </section>
+
+                </form>
+
+            </div>
+            <div class="card">
+                <header>Login</header>
+                <p>Login using your existing account</p>
+                <!-- <img src="./images/login.PNG" alt="login box" /> -->
+                <form>
+                    <p>
+                        <label for="username">E-mail / Username:</label>
+                        <input class="text-input" id="email" type="text" placeholder="me@example.com" />
+                    </p>
+                    <p>
+                        <label for="password">Password:</label>
+                        <input class="text-input" type="text" id="password" placeholder="password"></input>
+                    </p>
+                    </section>
+                    <section>
+                        <button class="btn-lg btn-block" id="login-button">Login</button>
+                        <div class="text-center" id="signupSuccessMsg"></div>
+                    </section>
+
+            </div>
+        </div>
+
+
+    </main>
+
+    <footer>
+        <p>
+            Group 2 Project 2!
+        </p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="./js/home.js"></script>
+
 </body>
+
 </html>
