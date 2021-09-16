@@ -22,7 +22,7 @@ aside {
 }
 
 .container {
-    flex: 4;
+    flex: 6;
     background-color: #fff;
     padding: 20px;
     display: flex;
@@ -31,13 +31,26 @@ aside {
 }
 
 .card {
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 10px;
-    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #eceff1;
+    border-radius: 8px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0 1px 2px 0,
+      rgba(60, 64, 67, 0.15) 0 1px 3px 1px;
+    margin: 2%;
+    margin-top: 80px;
+    padding: 20px;
+    width: 46%;
+    overflow: hidden;
+    position: relative;
+    float: left;
     flex: 0 0 400px;
-    margin-bottom: 20px;
-}
+  }
+  
+  .card::after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
 
 .card header {
     padding: 20px;
@@ -46,6 +59,26 @@ aside {
 .card p {
     text-align: left;
 }
+
+input {
+    background-color: #f1f3f4;
+    border-radius: 2px;
+    border-width: 0;
+    font-size: 1em;
+    height: 45px;
+    line-height: 20px;
+    margin: 0;
+    margin-top: 10px;
+    max-width: 100%;
+    padding: 8px 8px 8px 8px;
+    transition-delay: 0s, 0s;
+    transition-duration: 0.2s, 0.2s;
+    transition-property: background-color, color;
+    transition-timing-function: ease, ease;
+    vertical-align: middle;
+    width: 100%;
+  }
+  
 
 button {
     padding: 1% 2%;
@@ -66,8 +99,26 @@ button {
     margin-top: 0.6em;
 }
 
-.button {
-   align-items: center;
+.input-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+#button-center {
+    align-items: center;
+}
+
+#msg {
+    visibility: hidden;
+    margin-top: 20px;
+    font-weight: 700;
+    height: 1.2em;
+    font-size: 1.2em;
+}
+
+#msg.success,
+#msg.error {
+  visibility: visible;
 }
 
 footer {

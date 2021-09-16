@@ -13,17 +13,16 @@
 
 <body>
     <header>
-        <h1>Welcome to the Project Bid Board!</h1>
-        <p>
-            Place your projects as well as bid on the projects here! May the best bid win!!
-        </p>
+        <h1>Welcome to Project Bid Board!</h1>
+        <p> Place your projects as well as bid on the projects here!  </p>
+        <h4>May the best bid win!!</h4>
     </header>
-
-    <main>
-        <aside>
+<
+    <main class=row>
+        <aside class= "col-md-12 col-lg-3">
             <p>Sign-up or login to get access to the bidding board.</p>
-            <p>Login as a 'Poster' to post the projects that you would like to float.</p>
-            <p>Login as a 'Bidder' to bid on the projects that you would like to be contracted for.</p>
+            <p>Login as a <b>'Poster' to post the projects</b> that you would like to float.</p>
+            <p>Login as a <b>'Bidder' to bid on the projects</b> that you would like to be contracted for.</p>
         </aside>
 
         <div class="container justify-content-around">
@@ -32,7 +31,7 @@
                 <!-- <img src="./images/signup.PNG" alt="sign up box" /> -->
                 <p>Signup for a new account here</p>
                 <section>
-                    <form>
+                    <form method="POST">
                         <p>
                             <label for="name">Company Name:</label>
                             <input class="text-input" id="username" type="text" placeholder="Company Name" />
@@ -45,16 +44,16 @@
                             <label for="password">Password:</label>
                             <input class="text-input" type="text" id="password" placeholder="password"></input>
                         </p>
-                        <p class="flex-row">
-                            <label for="role">Poster/Bidder:</label>
-                            <select id="role">
-                                <option>Poster</option>
-                                <option selected>Bidder</option>
+                        <p>
+                            <label for="role">Your role - Poster/Bidder:</label>
+                            <select name ="role" id="role">
+                                <option value="poster">Poster</option>
+                                <option value="bidder">Bidder</option>
                             </select>
                         </p>
                 </section>
                 <section>
-                    <button>Signup</button>
+                    <button class="btn-lg btn-block">Signup</button>
                 </section>
 
                 </form>
@@ -73,16 +72,9 @@
                         <label for="password">Password:</label>
                         <input class="text-input" type="text" id="password" placeholder="password"></input>
                     </p>
-                    <p class="flex-row">
-                        <label for="role">Poster/Bidder:</label>
-                        <select id="role">
-                            <option>Poster</option>
-                            <option selected>Bidder</option>
-                        </select>
-                    </p>
                     </section>
-                    <section id="button-center">
-                        <button>Login</button>
+                    <section>
+                        <button class="btn-lg btn-block">Login</button>
                         <div id="msg"></div>
                     </section>
 
