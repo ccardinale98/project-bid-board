@@ -6,6 +6,7 @@ const authBidder = require('../utils/auth');
 const path = require('path')
 
 router.get('/', (req, res) => {
+    console.log('GET /');
     if (req.session.logged_in && req.session.is_poster == true) {
       res.redirect('/poster')
       return;
@@ -15,18 +16,6 @@ router.get('/', (req, res) => {
     }
 
     res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
-});
-
-router.get('/?', (req, res) => {
-  if (req.session.logged_in && req.session.is_poster == true) {
-    res.redirect('/poster')
-    return;
-  } else if (req.session.logged_in && req.session.is_poster == false) {
-    res.redirect('/bidder')
-    return;
-  }
-
-  res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
 });
 
 router.post('/create', async (req, res) => {
@@ -46,6 +35,7 @@ router.post('/create', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  console.log('POST /login');
   try {
       const user = await User.findOne({ where: { email: req.body.email } });
 
@@ -66,15 +56,25 @@ router.post('/login', async (req, res) => {
       }
 
       req.session.save(() => {
-          req.session.user_id = user.id;
+        console.log(user);
+        console.log(user.id);
+        console.log(user.is_poster);
+        req.session.user_id = user.id;
           req.session.is_poster = user.is_poster;
           req.session.logged_in = true;
-
-          res.json({ user: user, message: 'Login Succesful' });
+          
+          if (req.session.is_poster == false) {
+            console.log(path.resolve(__dirname + '/../public/' + 'bidder.html'))
+            res.sendFile(path.resolve(__dirname + '/../public/' + 'bidder.html'))
+          } else {
+          console.log(path.resolve(__dirname + '/../public/' + 'home.html'))
+          res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
+          }
       });
-      res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
+      // res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
   } catch (err) {
-      res.status(404).end();
+    console.log(err);
+    res.status(404).end();
   }
 });
 
@@ -111,7 +111,7 @@ router.get('/poster', withAuth, authPoster, async (req, res) => {
   }
 });
 
-router.get('/bidder', withAuth, authBidder, async (req, res) => {
+router.get('/bidder', async (req, res) => {
   try {
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
@@ -124,8 +124,6 @@ router.get('/bidder', withAuth, authBidder, async (req, res) => {
         }
       ],
     });
-
-    const user = userData.get({ plain: true });
 
     res.sendFile(path.resolve(__dirname + '/../public/' + 'bidder.html'))
   } catch (err) {

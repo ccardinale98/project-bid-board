@@ -1,3 +1,5 @@
+// const { response } = require("express");
+console.log('bidder.js')
 var user_id = [];
 console.log(user_id)
 console.log(user_id.toString())
@@ -9,6 +11,7 @@ var bidToUpdate = [];
 console.log(bidToUpdate)
 
 const loadProjects = async () => {
+    try{
     const response = await fetch(`/api/project/projects`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -52,6 +55,9 @@ const loadProjects = async () => {
         })
 
         $('#project-list').append(projectBoxEl)
+    }
+    } catch (err) {
+        console.log(err)
     }
 }
 

@@ -56,6 +56,7 @@ router.get('/:id', withAuth, async (req, res) => {
 });
 
 router.get('/projects', async (req, res) => {
+  console.log('GET /projects')
   try {
     const project = await Project.findAll();
 
