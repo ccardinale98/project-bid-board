@@ -4,74 +4,107 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/style.css" />
     <title>Projects</title>
   </head>
-  <body>
-    <section class="top">
-      <header class="bg-primary text-light mb-4 py-3 flex-row align-center">
-        <div
-          class="
-            container
-            flex-row
-            justify-space-between-lg justify-center
-            align-center
-          "
-        >
-          <h1 class="m-0">Gov/Construction Project Listings</h1>
-          <p class="m-0">Posters or Bidders</p>
-        </div>
-      </header>
-    </section>
-
-    <div class="container">
-      <main id="bid-projects">
-        <div id="form-row" class="row justify-content-between">
-          <form id='form' class='col-md-7'>
-            <div class="poster">
-                <h1>All project bidding on: (Include: Project Name, Descriptions and Bids!)</h1>
-              </div>
-            <section id='input-section'>
-                <!-- <div> -->
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description, Bids" >
-                <button class="submit-button">Submit</button>
-                <br>
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description, Bids" >
-                <button class="submit-button">Submit</button>
-                <br>
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description" >
-                <button class="submit-button">Submit</button>
-                <br>
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description" >
-                <button class="submit-button">Submit</button>
-            <!-- </div>  -->
-            </section>
-            
-            <div class="bid">
-            <h1>All projects available to bid on: (Include: Project Names and Descriptions!)</h1>
+    <body>
+        <section class="top">
+            <header class="">
+                <div class="containerflex-rowjustify-space-between-lg justify-centeralign-center">
+                    <h1 class="m-0">Gov/Construction Project Listings</h1>
+                    <p class="m-0">Posters or Bidders</p>
+                </div>
+            </header>
+        </section>
+        <div class="container">
+            <div id='form-row' class='row justify-content-around'>
+                    <!-- All project bidding on: (Include: Project Name, Descriptions and Bids!)(Past) -->
+                <form id='form' class='col-md-5'>
+                    <section id="input-section">
+                        <h1>All Current/ Past Posts</h1><br>
+                            <label>Post #1:</label>
+                            <input id='past-project' type='text' name='project-list' placeholder="Project Name, Description, Bids" ><br>
+                            <label>Post #2:</label>
+                            <input id='past-project' type='text' name='project-list' placeholder="Project Name, Description, Bids" ><br>
+                            <label>Post #3:</label>
+                            <input id='past-project' type='text' name='project-list' placeholder="Project Name, Description, Bids" ><br>
+                            <label>Post #4:</label>
+                            <input id='past-project' type='text' name='project-list' placeholder="Project Name, Description, Bids" ><br>
+                    </section>
+                </form>
+                    <section id="bids-page" class='col-md-7'>
+                        <!-- All Projects Available to bid on! -->
+                        <h2>All Projects Available:</h2><br>
+                        <div class="table-responsive">
+                            <table class="table table-bordered custom-table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Project Name:</th>
+                                    <th scope="col">Project Type:</th>
+                                    <th scope="col">Project Description:</th>
+                                    <th scope="col">Due Date:</th>
+                                    <th scope="col" class="p-3"></th>
+                                    </tr>
+                                </thead>
+                                    <tbody id="project-display"></tbody>
+                            </table>
+                                <div class="card-footer">
+                                <button class="btn btn-block custom-btn" data-toggle="modal" data-target="#project-modal" >Add Project</button>
+                                </div>
+                        </div>
+                    </section>
             </div>
-            <section id='submit-bids' class='col-md-7'>
-              
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description" >
-                <button class="submit-button">Submit</button>
-                <br>
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description" >
-                <button class="submit-button">Submit</button>
-                <br>
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description" >
-                <button class="submit-button">Submit</button>
-                <br>
-                <input type='text' id='' name='' placeholder="Enter Project Name, Description" >
-                <button class="submit-button">Submit</button>
-                <br>
-            </section>
-
-
-          </form>
         </div>
-      </main>
+        
+        <!-- Modal -->
+    <div class="modal fade custom-modal" id="project-modal" tabindex="-1" role="dialog" aria-labelledby="project-modal-form" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="project-modal-form">Add a new project.</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <form id="project-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="project-name-input">Project Name:</label>
+                            <input type="text" id="project-name-input" class="form-control" placeholder="Enter the project's name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="project-type-input">Project Type:</label>
+                            <select class="form-control" id="project-type-input">
+                                <option selected disabled>Pick one...</option>
+                                <option value="Government">Government</option>
+                                <option value="Construction">Construction</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-desc-input">Project Description:</label>
+                            <input type="text" id="project-desc-input" class="form-control" placeholder="Enter Project Description" min="0" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="due-date-input">Due Date:</label>
+                            <input type="text" min='1' id="due-date-input" class="form-control" placeholder="When is the project due?" required />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn custom-btn">Submit Project Info</button>
+                        </div>    
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <script src="./js/script.js"></script>
-  </body>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+        <script src="../public/js/script.js"></script>
+    </body>
 </html>
