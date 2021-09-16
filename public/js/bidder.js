@@ -224,6 +224,25 @@ const updateBid = async (amt) => {
     console.log(response.statusText)
 }
 
+$('#logout').on('click', function(event) {
+    event.preventDefault();
+
+    const logout = async () => {
+        const response = await fetch('/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+      
+        if (response.ok) {
+          document.location.replace('/');
+        } else {
+          alert(response.statusText);
+        }
+    };
+
+    logout()
+})
+
 loadProjects();  
 loadUser();
 loadBids(user_id[0]); 

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Project, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
       const Projects = await Project.create({
         ...req.body,
@@ -55,7 +55,7 @@ router.get('/:id', withAuth, async (req, res) => {
   }
 });
 
-router.get('/projects', withAuth, async (req, res) => {
+router.get('/projects', async (req, res) => {
   try {
     const project = await Project.findAll();
 
@@ -63,8 +63,9 @@ router.get('/projects', withAuth, async (req, res) => {
     res.status(200).json(projects)
 
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 });
   
-  module.exports = router;
+module.exports = router;
