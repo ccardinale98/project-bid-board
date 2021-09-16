@@ -1,60 +1,84 @@
 const router = require('express').Router();
 const { User, Project, Bid } = require('../models');
 const withAuth = require('../utils/auth');
+const authPoster = require('../utils/auth');
+const authBidder = require('../utils/auth');
+const path = require('path')
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
+    if (req.session.logged_in && req.session.is_poster == true) {
+      res.redirect('/poster')
+      return;
+    } else if (req.session.logged_in && req.session.is_poster == false) {
+      res.redirect('/bidder')
+      return;
+    }
+
+    res.sendFile(path.resolve(__dirname + '/../public/' + 'home.html'))
+});
+
+router.post('/create', async (req, res) => {
   try {
-    const user = await Project.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['company_name'],
-          through: Bid,
-          as: 'bids'
-        },
-      ],
-    });
+      const user = await User.create(req.body);
 
-    const users = user.map((user) => user.get({ plain: true }));
-    res.render('homepage', { 
-      users, 
-      logged_in: req.session.logged_in 
+      req.session.save(() => {
+          req.session.user_id = user.id;
+          req.session.is_poster = user.is_poster;
+          req.session.logged_in = true;
+
+          res.status(200).json(user);
+      })
+  } catch (err) {
+      res.status(400).json(err);
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+      const user = await User.findOne({ where: { email: req.body.email } });
+
+      if (!user) {
+          res
+              .status(400)
+              .json({ message: 'Incorrect email or password, please try again.' });
+          return;
+      }
+
+      const validPassword = await user.checkPassword(req.body.password);
+
+      if (!validPassword) {
+          res
+              .status(400)
+              .json({ message: 'Incorrect email or password, please try again.' });
+          return;
+      }
+
+      req.session.save(() => {
+          req.session.user_id = user.id;
+          req.session.is_poster = user.is_poster;
+          req.session.logged_in = true;
+
+          res.json({ user: user, message: 'Login Succesful' });
+      });
+  } catch (err) {
+      res.status(404).end();
+  }
+});
+
+router.post('/logout', (req, res) => {
+  if (req.session.logged_in) {
+    req.session.destroy(() => {
+      res.status(204).end();
     });
-    
-    res.status(200).json(users)
   
-  } catch (err) {
-    res.status(500).json(err);
+  } else {
+    res.status(404).end();
   }
 });
 
-router.get('/project/:id', async (req, res) => {
+router.get('/poster', withAuth, authPoster, async (req, res) => {
   try {
-    const project = await Project.findByPk(req.params.id, {
-      include: [
-        {
-          model: User,
-          attributes: ['company_name'],
-          through: Bid,
-          as: 'bids'
-        },
-      ],
-    });
-
-    const projects = project.get({ plain: true });
-
-    res.render('project', {
-      ...projects,
-      logged_in: req.session.logged_in
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-router.get('/profile', withAuth, async (req, res) => {
-  try {
-    const user = await User.findByPk(req.session.user_id, {
+    const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
       include: [
         { 
@@ -66,24 +90,35 @@ router.get('/profile', withAuth, async (req, res) => {
       ],
     });
 
-    const users = user.get({ plain: true });
+    const user = userData.get({ plain: true });
 
-    res.render('profile', {
-      ...users,
-      logged_in: true
-    });
+    res.sendFile(path.resolve(__dirname + '/../public/' + 'bidder.html'))
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-router.get('/login', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('/profile');
-    return;
-  }
+router.get('/bidder', withAuth, authBidder, async (req, res) => {
+  try {
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [
+        { 
+          model: Project,
+          attributes: ['project_name'],
+          through: Bid,
+          as: 'project_users'
+        }
+      ],
+    });
 
-  res.render('login');
+    const user = userData.get({ plain: true });
+
+    res.sendFile(path.resolve(__dirname + '/../public/' + 'bidder.html'))
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
