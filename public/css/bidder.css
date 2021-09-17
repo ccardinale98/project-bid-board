@@ -1,3 +1,28 @@
+:root {
+    --blue: #13293d;
+    --green: #b9c6ae;
+    --cream: rgb(247, 241, 214);
+    --background: #e3f0f0;
+}
+
+body {
+    background-color: var(--background);
+}
+
+nav {
+    background-color: var(--blue);
+    color: white;
+    height: 100px;
+    margin: auto;
+    padding: 20px;
+}
+
+#logout {
+    background-color: var(--green);
+    color: black;
+    float: right;
+}
+
 main {
     padding-top: 60px;
 }
@@ -12,10 +37,11 @@ main {
 h1 {
     border-bottom: solid;
     height: 100px;
+    color: var(--blue);
 }
 
 .project-box {
-    border: solid;
+    background-color: var(--green);
 }
 
 #title-row {
@@ -37,6 +63,9 @@ h1 {
     padding: 20px;
     overflow: scroll;
     max-height: 600px;
+    background-color: var(--cream);
+    border-color: var(--blue);
+    border-width: 15px;
 }
 
 #bid-list-div {
@@ -45,6 +74,9 @@ h1 {
     padding: 20px;
     overflow: scroll;
     max-height: 600px;
+    background-color: var(--cream);
+    border-color: var(--blue);
+    border-width: 15px;
 }
 
 #project-list {
@@ -69,11 +101,20 @@ h1 {
     margin-top: 20px;
     display: flex;
     flex-direction: column-reverse;
-    border: black;
-    border-style: solid;
     min-width: 477.58px;
+    background-color: var(--green);
 }
 
 h3 {
     text-align: center;
+}
+
+.place-bid-button {
+    background-color: var(--blue);
+    color: white;
+}
+
+.update-bid-button {
+    background-color: var(--blue);
+    color: white;
 }

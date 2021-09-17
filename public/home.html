@@ -13,11 +13,11 @@
 
 <body>
     <header>
-        <h1>Welcome to Project Bid Board!</h1>
-        <p> Place your projects as well as bid on the projects here!  </p>
-        <h4>May the best bid win!!</h4>
+        <h1>Government Contracting Board</h1>
+        <p> Place your projects as well as bid on the projects here!</p>
+        <h4>Servicing public entities such as government institutions and the United States Military</h4>
     </header>
-<
+
     <main class=row>
         <aside class= "col-md-12 col-lg-3">
             <p>Sign-up or login to get access to the bidding board.</p>
@@ -25,13 +25,13 @@
             <p>Login as a <b>'Bidder' to bid on the projects</b> that you would like to be contracted for.</p>
         </aside>
 
-        <div class="container justify-content-around">
+        <div id='container-div' class="container justify-content-around">
             <div class="card">
                 <header>Signup</header>
                 <!-- <img src="./images/signup.PNG" alt="sign up box" /> -->
                 <p>Signup for a new account here</p>
                 <section>
-                    <form method="POST">
+                    <form class='user-form'>
                         <div>
                             <label for="name">Company Name:</label>
                             <input class="text-input" id="username" type="text" placeholder="Company Name" />
@@ -47,41 +47,37 @@
                         <div>
                             <label for="role">Your role - Poster/Bidder:</label>
                             <select name ="role" id="role">
-                                <option value="poster">Poster</option>
-                                <option value="bidder">Bidder</option>
+                                <option value="poster">Institution</option>
+                                <option value="bidder">Contractor</option>
                             </select>
                         </div>
+                        <section>
+                            <button class="btn-lg btn-block" id="signup-button">Signup</button>
+                        </section>
+                    </form>
                 </section>
-                <section>
-                    <button class="btn-lg btn-block" id="signup-button">Signup</button>
-                </section>
-
-                </form>
-
             </div>
+            
             <div class="card">
                 <header>Login</header>
                 <p>Login using your existing account</p>
                 <!-- <img src="./images/login.PNG" alt="login box" /> -->
-                <form>
-                    <p>
+                <form class='user-form'>
+                    <div>
                         <label for="username">E-mail / Username:</label>
                         <input class="text-input" id="login-email" type="text" placeholder="me@example.com" />
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <label for="password">Password:</label>
                         <input class="text-input" type="text" id="login-password" placeholder="password"></input>
-                    </p>
-                    </section>
+                    </div>
                     <section>
                         <button class="btn-lg btn-block" id="login-button">Login</button>
                         <div class="text-center" id="signupSuccessMsg"></div>
                     </section>
-
+                </form>   
             </div>
         </div>
-
-
     </main>
 
     <footer>

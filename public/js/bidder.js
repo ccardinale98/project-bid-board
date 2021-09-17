@@ -100,7 +100,10 @@ const loadUser = async () => {
 
     user_id.push(company.id)
 
-    $('.navbar-brand').text(`Hello, ${company.company_name}`)
+    $('.navbar-brand').text(`Hello, ${company.company_name}`).css({
+        'color': 'white', 
+        'font-size': '2vw'
+    })
 }
 
 const loadBids = async () => {

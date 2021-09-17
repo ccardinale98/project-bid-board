@@ -26,7 +26,8 @@ const createUser = async (company_name, email, password, is_poster) => {
         headers: { 'Content-Type': 'application/json' },
     })
 
-    console.log(response.statusText)
+    console.log(response.url)
+    window.location = response.url
 }
 
 $('#login-button').on('click', function(event) {
@@ -41,10 +42,12 @@ $('#login-button').on('click', function(event) {
 const loginUser = async (email, password) => {
     const response = await fetch (`/api/user/login`, {
         method: 'POST',
+        redirect: 'follow',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
     })
-
-    console.log(response.statusText)
+    
+    console.log(response.url)
+    window.location = response.url
 }
 
