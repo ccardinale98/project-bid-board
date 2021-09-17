@@ -1,96 +1,167 @@
-const router = require('express').Router();
-const { User } = require('../../models');
-const withAuth = require('../../utils/auth');
+const router = require("express").Router();
+const { User } = require("../../models");
+const withAuth = require("../../utils/auth");
+const path = require("path");
 
-// Get all Users
-router.get('/', withAuth, async (req, res) => {
-    try {
-      const user = await User.findAll();
-  
-      const users = user.map((user) => user.get({ plain: true }));
-      res.status(200).json(users)
+router.get("/", async (req, res) => {
+  console.log("GET /api/user/");
 
-    } catch (err) {
-      res.status(500).json(err);
-    }
+  try {
+    const user = await User.findAll();
+
+    const users = user.map((user) => user.get({ plain: true }));
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-// Create a User
-router.post('/', async (req, res) => {
-    try {
-        const user = await User.create(req.body);
+router.post("/", async (req, res) => {
+  console.log("POST /api/user/");
 
-        req.session.save(() => {
-            req.session.user_id = user.id;
-            req.session.is_poster = user.is_poster;
-            req.session.logged_in = true;
+  try {
+    const user = await User.create(req.body);
 
-            res.status(200).json(user);
-        })
-    } catch (err) {
-        res.status(400).json(err);
-    }
+    req.session.save(() => {
+      req.session.user_id = user.id;
+      req.session.is_poster = user.is_poster;
+      req.session.logged_in = true;
+
+      res.status(200).json(user);
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-//Get a single User
-router.get('/:id', withAuth, async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id, {});
+router.get("/:id", async (req, res) => {
+  console.log("GET /api/user/:id");
 
-        if (!user) {
-            res.status(404).json({ message: 'No User with this ID'});
-            return;
-        }
+  try {
+    const user = await User.findByPk(req.params.id, {});
 
-        res.status(200).json(user);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
+    if (!user) {
+      res.status(404).json({ message: "No User with this ID" });
+      return;
     }
-})
 
-//Log in a User
-router.post('/login', async (req, res) => {
-    try {
-        const user = await User.findOne({ where: { email: req.body.email } });
-
-        if (!user) {
-            res
-                .status(400)
-                .json({ message: 'Incorrect email or password, please try again.' });
-            return;
-        }
-
-        const validPassword = await user.checkPassword(req.body.password);
-
-        if (!validPassword) {
-            res
-                .status(400)
-                .json({ message: 'Incorrect email or password, please try again.' });
-            return;
-        }
-
-        req.session.save(() => {
-            req.session.user_id = user.id;
-            req.session.is_poster = user.is_poster;
-            req.session.logged_in = true;
-
-            res.json({ user: user, message: 'Login Succesful' });
-        });
-    } catch (err) {
-        res.status(404).end();
-    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
-// Log out a User
-router.post('/logout', (req, res) => {
-    if (req.session.logged_in) {
-      req.session.destroy(() => {
-        res.status(204).end();
-      });
-    } else {
-      res.status(404).end();
+router.post("/create", async (req, res) => {
+  console.log("POST /api/user/create");
+
+  try {
+    const user = await User.create({
+      company_name: req.body.company_name,
+      email: req.body.email,
+      password: req.body.password,
+      is_poster: req.body.is_poster,
+    });
+
+    req.session.save(() => {
+      req.session.user_id = user.id;
+      req.session.is_poster = user.is_poster;
+      req.session.logged_in = true;
+
+      res.status(200).json(user);
+
+      if (user.is_poster == false) {
+        console.log("---------------------------");
+        console.log(req.session.is_poster);
+        console.log(path.join(__dirname, "/../public/bidder.html"));
+
+        res.redirect("/bidder");
+      } else if (user.is_poster == true) {
+        console.log("---------------------------");
+        console.log(req.session.is_poster);
+        console.log(path.join(__dirname, "/../public/poster.html"));
+
+        res.redirect("/poster");
+      } else {
+        console.log("not logged in");
+
+        res.redirect("/");
+      }
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(400).json(err);
+  }
+});
+
+router.post("/login", async (req, res) => {
+  console.log("POST /api/user/login");
+
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+
+    if (!user) {
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again." });
+      return;
     }
+
+    const validPassword = await user.checkPassword(req.body.password);
+
+    if (!validPassword) {
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again." });
+      return;
+    }
+
+    req.session.save(() => {
+      console.log(user);
+      console.log(user.id);
+      console.log(user.is_poster);
+
+      req.session.user_id = user.id;
+      req.session.is_poster = user.is_poster;
+      req.session.logged_in = true;
+
+      console.log(req.session.logged_in);
+
+      if (req.session.is_poster == false) {
+        console.log("---------------------------");
+        console.log(req.session.is_poster);
+        console.log(path.join(__dirname, "/../public/bidder.html"));
+
+        res.redirect("/bidder");
+      } else if (req.session.is_poster == true) {
+        console.log("---------------------------");
+        console.log(req.session.is_poster);
+        console.log(path.join(__dirname, "/../public/poster.html"));
+
+        res.redirect("/poster");
+      } else {
+        console.log("not logged in");
+
+        res.redirect("/");
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).end();
+  }
+});
+
+router.post("/logout", (req, res) => {
+  console.log("POST /api/user/logout");
+
+  if (req.session.logged_in) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
+  }
 });
 
 module.exports = router;

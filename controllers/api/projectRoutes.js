@@ -1,21 +1,26 @@
-const router = require('express').Router();
-const { Project, User, Bid } = require('../../models');
-const withAuth = require('../../utils/auth');
+const router = require("express").Router();
+const { Project, User, Bid } = require("../../models");
+const withAuth = require("../../utils/auth");
+const path = require("path");
 
-router.post('/', async (req, res) => {
-    try {
-      const Projects = await Project.create({
-        ...req.body,
-        poster_id: req.session.user_id,
-      });
-  
-      res.status(200).json(Projects);
-    } catch (err) {
-      res.status(400).json(err);
-    }
+router.post("/", async (req, res) => {
+  console.log("POST /api/project/");
+
+  try {
+    const Projects = await Project.create({
+      ...req.body,
+      poster_id: req.session.user_id,
+    });
+
+    res.status(200).json(Projects);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete("/:id", async (req, res) => {
+  console.log("DELETE /api/project/:id");
+
   try {
     const projects = await Project.destroy({
       where: {
@@ -25,7 +30,7 @@ router.delete('/:id', withAuth, async (req, res) => {
     });
 
     if (!projects) {
-      res.status(404).json({ message: 'No project found with this id!' });
+      res.status(404).json({ message: "No project found with this id!" });
       return;
     }
 
@@ -35,39 +40,41 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
-router.get('/:id', withAuth, async (req, res) => {
+router.get("/:id", async (req, res) => {
+  console.log("GET /api/project/:id");
+
   try {
     const project = await Project.findByPk(req.params.id, {
       include: [
         {
           model: User,
-          attributes: ['company_name'],
+          attributes: ["company_name"],
           through: Bid,
-          as: 'bids'
+          as: "bids",
         },
       ],
     });
 
     const projects = project.get({ plain: true });
-    res.status(200).json(projects)
+    res.status(200).json(projects);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json(err);
   }
 });
 
-router.get('/', async (req, res) => {
-  console.log('GET /projects')
+router.get("/", async (req, res) => {
+  console.log("GET /api/project/");
+
   try {
     const project = await Project.findAll();
 
     const projects = project.map((project) => project.get({ plain: true }));
-    res.status(200).json(projects)
-
+    res.status(200).json(projects);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json(err);
   }
 });
-  
+
 module.exports = router;
