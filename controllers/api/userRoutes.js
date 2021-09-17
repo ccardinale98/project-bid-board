@@ -41,7 +41,8 @@ router.get("/:id", async (req, res) => {
     const user = await User.findByPk(req.params.id, {});
 
     if (!user) {
-      res.status(404).json({ message: "No User with this ID" });
+      res
+      .status(404).json({ message: "No User with this ID" })
       return;
     }
 
@@ -104,7 +105,7 @@ router.post("/login", async (req, res) => {
     if (!user) {
       res
         .status(400)
-        .json({ message: "Incorrect email or password, please try again." });
+        .json({ message: "Incorrect email or password, please try again." })
       return;
     }
 

@@ -1,13 +1,13 @@
 $('#signup-button').on('click', function(event) { 
-    event.preventDefault()
+    event.preventDefault();
     var company_name = $('#username').val();
     var email = $('#email').val();
     var password = $('#password').val();
-    var role = $('#role option:selected').val()
-    console.log(company_name)
-    console.log(email)
-    console.log(password)
-    console.log(role)
+    var role = $('#role option:selected').val();
+    console.log(company_name);
+    console.log(email);
+    console.log(password);
+    console.log(role);
     if (role == 'poster') {
         var is_poster = true
     } else {
@@ -26,7 +26,8 @@ const createUser = async (company_name, email, password, is_poster) => {
         headers: { 'Content-Type': 'application/json' },
     })
 
-    console.log(response.statusText)
+    console.log(response.url)
+    window.location = response.url
 }
 
 $('#login-button').on('click', function(event) {
@@ -41,10 +42,12 @@ $('#login-button').on('click', function(event) {
 const loginUser = async (email, password) => {
     const response = await fetch (`/api/user/login`, {
         method: 'POST',
+        redirect: 'follow',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
     })
-
-    console.log(response.statusText)
+    
+    console.log(response.url)
+    window.location = response.url
 }
 

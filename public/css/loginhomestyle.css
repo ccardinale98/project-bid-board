@@ -1,5 +1,20 @@
+:root {
+    --blue: #13293d;
+    --green: #b9c6ae;
+    --cream: rgb(247, 241, 214);
+    --background: #e3f0f0;
+}
+
 * {
     box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+}
+
+#container-div {
+    background-color: var(--background);
 }
 
 header {
@@ -12,13 +27,23 @@ header {
 main {
     display: flex;
     flex-wrap: wrap;
+    background-color: var(--background);
 }
 
 aside {
     flex: 1;
     background-color: #b9c6ae;
-    padding: 80px;
+    padding: 80px 15px 80px 15px;
     text-align: center;
+}
+
+aside p{
+    margin-left: 15px;
+}
+
+.user-form div{
+    padding-top: 10px;
+    padding-bottom: 10px
 }
 
 .container {
@@ -37,7 +62,8 @@ aside {
     box-shadow: rgba(60, 64, 67, 0.3) 0 1px 2px 0,
       rgba(60, 64, 67, 0.15) 0 1px 3px 1px;
     margin: 2%;
-    margin-top: 80px;
+    margin-top: 50px;
+    margin-bottom: 65px;
     padding: 20px;
     width: 46%;
     overflow: hidden;
@@ -68,7 +94,6 @@ input {
     height: 45px;
     line-height: 20px;
     margin: 0;
-    margin-top: 10px;
     max-width: 100%;
     padding: 8px 8px 8px 8px;
     transition-delay: 0s, 0s;
