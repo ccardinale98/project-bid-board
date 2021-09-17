@@ -82,4 +82,19 @@ router.get("/bidder", async (req, res) => {
   }
 });
 
+router.get("/current", async (req, res) => {
+  console.log("GET /poster");
+
+  try {
+    const user = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ["password"] },
+    });
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

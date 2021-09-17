@@ -59,7 +59,7 @@ h2 {
   padding: 30px 5px 30px 5px;
 }
 
-#bids-page {
+#bids {
   border: solid;
   margin-bottom: 0px;
   margin-top: 50px;
@@ -71,6 +71,27 @@ h2 {
   overflow: hidden;
   background-color: gray;
   color: black;
+  text-align: center;
+}
+
+#projects {
+  border: solid;
+  margin-bottom: 0px;
+  margin-top: 50px;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow: hidden;
+  background-color: gray;
+  color: black;
+  text-align: center;
+}
+
+#project-ul {
+  margin: 0px;
+  padding: 0px;
 }
 
 .card-footer {
@@ -115,4 +136,16 @@ thead {
 
 .delete-project-btn {
   cursor: pointer;
+}
+
+.project-box {
+  border: black;
+  border: solid;
+  padding: 10px;
+}
+
+.bid-box{
+  border: black;
+  border: solid;
+  padding: 10px;
 }
