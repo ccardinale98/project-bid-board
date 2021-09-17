@@ -1,25 +1,37 @@
-// alert("Welcome to Project Bid Board!");
-
-$('#signup-button').on('click', function() { 
+$('#signup-button').on('click', function(event) { 
+    event.preventDefault()
     var company_name = $('#username').val();
     var email = $('#email').val();
     var password = $('#password').val();
-    var role = $('#role').val().toLowerCase()
+    var role = $('#role option:selected').val()
+    console.log(company_name)
+    console.log(email)
+    console.log(password)
+    console.log(role)
+    if (role == 'poster') {
+        var is_poster = true
+    } else {
+        var is_poster = false
+    }
 
-    createUser(company_name, email, password, role)
+    createUser(company_name, email, password, is_poster)
 })
 
-const createUser = async (company_name, email, password, role) => {
-    const response = await fetch(`/create`, {
+const createUser = async (company_name, email, password, is_poster) => {
+    console.log(is_poster)
+    
+    const response = await fetch(`/api/user/create`, {
         method: 'POST',
-        body: JSON.stringify({ company_name, email, password, role }),
+        body: JSON.stringify({ company_name, email, password, is_poster }),
         headers: { 'Content-Type': 'application/json' },
     })
 
     console.log(response.statusText)
 }
 
-$('#login-button').on('click', function() {
+$('#login-button').on('click', function(event) {
+    event.preventDefault();
+    
     var email = $('#login-email').val()
     var password = $('#login-password').val()
 
@@ -27,7 +39,7 @@ $('#login-button').on('click', function() {
 })
 
 const loginUser = async (email, password) => {
-    const response = await fetch (`/login`, {
+    const response = await fetch (`/api/user/login`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },

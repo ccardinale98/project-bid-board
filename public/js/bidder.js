@@ -12,7 +12,7 @@ console.log(bidToUpdate)
 
 const loadProjects = async () => {
     try{
-    const response = await fetch(`/api/project/projects`, {
+    const response = await fetch(`/api/project/`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     })
@@ -192,7 +192,7 @@ const createBid = async (amt) => {
     project_id = project_id[0]
     bid_amount = amt
 
-    const response = await fetch('/api/bid/', {
+    const response = await fetch('/api/bid/create', {
         method: 'POST',
         body: JSON.stringify({ project_id, user_id, bid_amount }),
         headers: { 'Content-Type': 'application/json' },
@@ -234,7 +234,7 @@ $('#logout').on('click', function(event) {
     event.preventDefault();
 
     const logout = async () => {
-        const response = await fetch('/logout', {
+        const response = await fetch('/api/user/logout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
         });

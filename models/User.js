@@ -37,6 +37,7 @@ User.init(
       },
       is_poster: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
     },
     {
