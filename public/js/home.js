@@ -1,13 +1,13 @@
 $('#signup-button').on('click', function(event) { 
-    event.preventDefault()
+    event.preventDefault();
     var company_name = $('#username').val();
     var email = $('#email').val();
     var password = $('#password').val();
-    var role = $('#role option:selected').val()
-    console.log(company_name)
-    console.log(email)
-    console.log(password)
-    console.log(role)
+    var role = $('#role option:selected').val();
+    console.log(company_name);
+    console.log(email);
+    console.log(password);
+    console.log(role);
     if (role == 'poster') {
         var is_poster = true
     } else {
