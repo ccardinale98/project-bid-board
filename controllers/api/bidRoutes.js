@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const { Bid } = require("../../models");
-const withAuth = require("../../utils/auth");
+const {withAuth, authPoster, authBidder} = require('../../utils/auth');
 const path = require("path");
 
-router.post("/create", async (req, res) => {
+router.post("/create", withAuth, authBidder, async (req, res) => {
   console.log("POST /api/bid/create");
 
   try {
@@ -21,7 +21,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", withAuth, authBidder, async (req, res) => {
   console.log("DELETE /api/bid/:id");
 
   try {
@@ -44,7 +44,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", withAuth, async (req, res) => {
   console.log("PUT /api/bid/update/:id");
 
   try {
@@ -61,7 +61,7 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.get("/bids", async (req, res) => {
+router.get("/bids", withAuth, async (req, res) => {
   console.log("GET /api/bid/bids");
 
   try {

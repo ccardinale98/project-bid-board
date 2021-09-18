@@ -1,15 +1,16 @@
 const router = require("express").Router();
 const { Project, User, Bid } = require("../../models");
-const withAuth = require("../../utils/auth");
+const {withAuth, authPoster, authBidder} = require('../../utils/auth');
 const path = require("path");
 
-router.post("/", async (req, res) => {
+router.post("/", withAuth, authPoster, async (req, res) => {
   console.log("POST /api/project/");
 
   try {
     const Projects = await Project.create({
       ...req.body,
       poster_id: req.session.user_id,
+      status: 'open',
     });
 
     res.status(200).json(Projects);
@@ -18,7 +19,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", withAuth, authPoster, async (req, res) => {
   console.log("DELETE /api/project/:id");
 
   try {
@@ -40,7 +41,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", withAuth, async (req, res) => {
   console.log("GET /api/project/:id");
 
   try {
@@ -63,7 +64,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", withAuth, async (req, res) => {
   console.log("GET /api/project/");
 
   try {
@@ -71,6 +72,23 @@ router.get("/", async (req, res) => {
 
     const projects = project.map((project) => project.get({ plain: true }));
     res.status(200).json(projects);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.put("/update/:id", withAuth, authPoster, async (req, res) => {
+  console.log("PUT /api/project/update/:id");
+
+  try {
+    const project = await Project.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.status(200).json(project);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

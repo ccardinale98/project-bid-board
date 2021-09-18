@@ -1,8 +1,14 @@
-/* stylesheet */
+:root {
+  --blue: #13293d;
+  --green: #b9c6ae;
+  --cream: rgb(247, 241, 214);
+  --background: #e3f0f0;
+}
 
 html,
 body {
   min-height: 100%;
+  background-color: var(--background);
 }
 
 body {
@@ -11,24 +17,32 @@ body {
   font-family: "Open Sans", "Segoe UI", Helvetica, Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
-  color: black;
 }
 
-header {
-  padding: 40px;
-  text-align: center;
-  background: gray;
-  color: black;
-  border-bottom: 30px #879274;
-  font-size: 25px;
+nav {
+  background-color: var(--blue);
+  color: white;
+  height: 100px;
+  margin: auto;
+  padding: 20px;
 }
 
-h1 {
-  font-family: "Open Sans", "Segoe UI", Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  margin: 0 0 0.5rem;
-  line-height: 1.25;
-  font-size: 2.1rem;
+#logout {
+  background-color: var(--green);
+  color: black;
+  float: right;
+}
+
+#projects-title {
+  border-bottom: solid;
+  height: fit-content;
+  color: var(--blue);
+}
+
+#bids-title {
+  border-bottom: solid;
+  height: fit-content;
+  color: var(--blue);
 }
 
 h2 {
@@ -38,8 +52,6 @@ h2 {
   line-height: 1.25px;
   font-size: 50px;
 }
-/* margin: 0 0 0.5rem; */
-
 
 #form {
   float: right;
@@ -60,33 +72,35 @@ h2 {
 }
 
 #bids {
+  display: grid;
+  height: fit-content;
+  padding: 20px;
+  overflow: scroll;
+  max-height: 600px;
+  min-width: 600px;
+  width: fit-content;
   border: solid;
-  margin-bottom: 0px;
-  margin-top: 50px;
-  padding: 50px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  flex-wrap: wrap;
-  overflow: hidden;
-  background-color: gray;
-  color: black;
-  text-align: center;
+  background-color: var(--cream);
+  border-color: var(--blue);
+  border-width: 15px;
+  margin-top: 30px;
+  margin-left: 20px;
 }
 
 #projects {
+  display: grid;
+  height: fit-content;
+  padding: 20px;
+  overflow: scroll;
+  min-width: 600px;
+  width: fit-content;
+  max-height: 600px;
   border: solid;
-  margin-bottom: 0px;
-  margin-top: 50px;
-  padding: 50px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  flex-wrap: wrap;
-  overflow: hidden;
-  background-color: gray;
-  color: black;
-  text-align: center;
+  background-color: var(--cream);
+  border-color: var(--blue);
+  border-width: 15px;
+  margin-top: 30px;
+  margin-right: 20px;
 }
 
 #project-ul {
@@ -138,14 +152,72 @@ thead {
   cursor: pointer;
 }
 
-.project-box {
-  border: black;
-  border: solid;
+.bid-box{
   padding: 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--green);
+  text-align: center;
 }
 
-.bid-box{
-  border: black;
-  border: solid;
+#bids {
+  background-color: var(--cream);
+  color: var(--blue);
+}
+
+#projects {
+  background-color: var(--cream);
+  color: var(--blue);
+}
+
+#new-project {
+  margin-top: 40px;
+  background-color: var(--blue);
+  color: white;
+}
+
+#button-div {
+  width: 100vw;
+  text-align: center;
+}
+
+.project-box {
   padding: 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--green);
+}
+
+.approve-button {
+  background-color: var(--blue);
+  color: white;
+  margin-top: 30px;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+#main-row {
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+/* when screen gets below 1200 px {
+ #main-row flexwrap wrap
+ #bids margin left 0
+ #projects margin right 0} */
+
+@media screen and (max-width: 1200px) {
+  #main-row {
+    flex-wrap: wrap;
+  }
+  #bids {
+    margin-left: 0px;
+  }
+  #projects {
+    margin-right: 0px;
+  }
 }

@@ -1,8 +1,6 @@
 const router = require("express").Router();
 const { User, Project, Bid } = require("../models");
-const withAuth = require("../utils/auth");
-const authPoster = require("../utils/auth");
-const authBidder = require("../utils/auth");
+const {withAuth, authPoster, authBidder} = require('../utils/auth');
 const path = require("path");
 
 router.get("/", (req, res) => {
@@ -26,8 +24,11 @@ router.get("/", (req, res) => {
   }
 });
 
-router.get("/poster", async (req, res) => {
+router.get("/poster", withAuth, authPoster, async (req, res) => {
   console.log("GET /poster");
+  console.log(req.session.user_id);
+  console.log(req.session.is_poster)
+  console.log(req.session.logged_in)
 
   try {
     const userData = await User.findByPk(req.session.user_id, {
@@ -48,9 +49,11 @@ router.get("/poster", async (req, res) => {
   }
 });
 
-router.get("/bidder", async (req, res) => {
+router.get("/bidder", withAuth, authBidder, async (req, res) => {
   console.log("GET /bidder");
   console.log(req.session.user_id);
+  console.log(req.session.is_poster)
+  console.log(req.session.logged_in)
 
   try {
     const userData = await User.findByPk(req.session.user_id, {
@@ -82,8 +85,8 @@ router.get("/bidder", async (req, res) => {
   }
 });
 
-router.get("/current", async (req, res) => {
-  console.log("GET /poster");
+router.get("/current", withAuth, async (req, res) => {
+  console.log("GET /current");
 
   try {
     const user = await User.findByPk(req.session.user_id, {

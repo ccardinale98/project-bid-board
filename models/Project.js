@@ -19,6 +19,10 @@ Project.init(
       description: {
         type: DataTypes.STRING,
       },
+      status: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
       poster_id: {
         type: DataTypes.INTEGER,
         references: {

@@ -8,7 +8,7 @@ const withAuth = (req, res, next) => {
 };
 
 const authPoster = (req, res, next) => {
-  if (req.User.is_poster !== true) {
+  if (req.session.is_poster !== true) {
     res.status(401);
     return res.send('You do not have permission to view this page.')
   } else {
@@ -17,7 +17,7 @@ const authPoster = (req, res, next) => {
 };
 
 const authBidder = (req, res, next) => {
-  if (req.User.is_poster !== false) {
+  if (req.session.is_poster !== false) {
     res.status(401);
     return res.send('You do not have permission to view this page.')
   } else {
@@ -25,4 +25,4 @@ const authBidder = (req, res, next) => {
   }
 };
 
-module.exports = withAuth, authPoster, authBidder;
+module.exports = {withAuth, authPoster, authBidder};
