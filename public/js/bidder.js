@@ -1,257 +1,262 @@
-// const { response } = require("express");
-console.log('bidder.js')
-var user_id = [];
-console.log(user_id)
-console.log(user_id.toString())
+console.log("bidder.js");
+var currentUser = [];
+console.log(currentUser);
 var project_id = [];
-console.log(project_id)
+console.log(project_id);
 var currentBids = [];
-console.log(currentBids)
+console.log(currentBids);
 var bidToUpdate = [];
-console.log(bidToUpdate)
+console.log(bidToUpdate);
 
 const loadProjects = async () => {
-    try{
+  try {
     const response = await fetch(`/api/project/`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-    })
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
 
-    const projects = await response.json()
-    console.log(projects[0])
+    const projects = await response.json();
+    console.log(projects);
 
     for (var i = 0; i < projects.length; i++) {
-        var list = projects[i]
+      if (projects[i].status !== "closed") {
+        var list = projects[i];
 
-        var projectBoxEl = document.createElement('div')
-        projectBoxEl.className = 'project-box'
-        
-        var titleEl = document.createElement('h3');
+        var projectBoxEl = document.createElement("div");
+        projectBoxEl.className = "project-box";
+
+        var titleEl = document.createElement("h3");
         titleEl.innerHTML = list.project_name;
-        console.log(list)
+        console.log(list);
         projectBoxEl.append(titleEl);
 
-        var descEl = document.createElement('p1');
+        var descEl = document.createElement("p1");
         descEl.innerHTML = list.description;
-        projectBoxEl.append(descEl)
-        
-        var bidButtonEl = document.createElement('button')
-        bidButtonEl.type = 'button'
-        bidButtonEl.setAttribute('id', `${list.id}-button`)
-        bidButtonEl.setAttribute('class', `place-bid-button`)
-        bidButtonEl.innerHTML = 'Place Bid'
-        projectBoxEl.append(bidButtonEl)
+        projectBoxEl.append(descEl);
 
-        bidButtonEl.addEventListener('click', function() {
-            if (currentBids.includes(parseInt(this.id.charAt(0))) == true) {
-                console.log('already have bid');
-                modal2();
-            } else {
-                console.log(this.id.charAt(0));
-                console.log(currentBids)
-                modal();
-                project_id.push(this.id.charAt(0))
-            }
-        })
+        var bidButtonEl = document.createElement("button");
+        bidButtonEl.type = "button";
+        bidButtonEl.setAttribute("id", `${list.id}-button`);
+        bidButtonEl.setAttribute("class", `place-bid-button`);
+        bidButtonEl.innerHTML = "Place Bid";
+        projectBoxEl.append(bidButtonEl);
 
-        $('#project-list').append(projectBoxEl)
-    }
-    } catch (err) {
-        console.log(err)
-    }
-}
+        bidButtonEl.addEventListener("click", function () {
+          if (currentBids.includes(parseInt(this.id.charAt(0))) == true) {
+            console.log("already have bid");
+            modal2();
+          } else {
+            console.log(this.id.charAt(0));
+            console.log(currentBids);
+            modal();
+            project_id.push(this.id.charAt(0));
+          }
+        });
 
-$('.place-bid-button').on('click', function() {
-    if (currentBids.includes(parseInt(this.id.charAt(0))) == true) {
-        console.log('already have bid');
-        modal2();
-    } else {
-        console.log(this.id.charAt(0));
-        console.log(currentBids)
-        modal();
-        project_id.push(this.id.charAt(0))
+        $("#project-list").append(projectBoxEl);
+      }
     }
-})
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+$(".place-bid-button").on("click", function () {
+  if (currentBids.includes(parseInt(this.id.charAt(0))) == true) {
+    console.log("already have bid");
+    modal2();
+  } else {
+    console.log(this.id.charAt(0));
+    console.log(currentBids);
+    modal();
+    project_id.push(this.id.charAt(0));
+  }
+});
 
 function modal() {
-    console.log('Modal is working!')
-    $('#modalLoginForm').modal('toggle') 
+  console.log("Modal is working!");
+  $("#modalLoginForm").modal("toggle");
 }
 
 function modal2() {
-    console.log('Error Modal working!')
-    $('#modalLoginForm2').modal('toggle') 
+  console.log("Error Modal working!");
+  $("#modalLoginForm2").modal("toggle");
 }
 
 function modal3() {
-    console.log('Update Modal working!')
-    $('#modalLoginForm3').modal('toggle') 
+  console.log("Update Modal working!");
+  $("#modalLoginForm3").modal("toggle");
 }
 
 const loadUser = async () => {
-    const response = await fetch(`/api/user/3`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-    })
+  try {
+    const response = await fetch(`/current`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
 
-    const company = await response.json()
-    console.log(company)
-    console.log(company.company_name)
+    const user = await response.json();
+    console.log(user);
+    console.log(user.id);
+    currentUser.unshift(user.id);
 
-    user_id.push(company.id)
-
-    $('.navbar-brand').text(`Hello, ${company.company_name}`).css({
-        'color': 'white', 
-        'font-size': '2vw'
-    })
-}
+    $(".navbar-brand").text(`Hello, ${user.company_name}`).css({
+      color: "white",
+      "font-size": "2vw",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const loadBids = async () => {
-    const response = await fetch(`/api/bid/bids`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-    })
+  const response = await fetch(`/api/bid/bids`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
 
-    const bids = await response.json()
-    console.log(bids)
+  const bids = await response.json();
+  console.log(bids);
 
-    for (var i = 0; i < bids.length; i++) {
-        list = bids[i]
+  for (var i = 0; i < bids.length; i++) {
+    list = bids[i];
 
-        if (list.user_id == 3) {
-            const loadCertainProject = async () => {
-                console.log(list)
-                console.log('hello')
-                console.log(list.project_id)
-                const responseP = await fetch(`/api/project/${list.project_id}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                })
-            
-                const projectBids = await responseP.json()
-                console.log(projectBids)
-                
-                var titleEl = document.createElement('h3');
-                titleEl.innerHTML = projectBids.project_name;
-                $(`#${projectBids.id}-bid-box`).append(titleEl);
-                console.log(projectBids.project_name)
-                console.log(projectBids.project_id)
-            } 
-            
-            loadCertainProject()
-            var bidBoxEl = document.createElement('div')
-            bidBoxEl.className = 'bid-box'
-            bidBoxEl.setAttribute('id', `${list.project_id}-bid-box`)
-    
-            var descEl = document.createElement('p1');
-            descEl.innerHTML = `Bid Amount: $${list.bid_amount}`;
-            bidBoxEl.append(descEl)
+    if (list.user_id == currentUser[0]) {
+      const loadCertainProject = async () => {
+        console.log(list);
+        console.log("hello");
+        console.log(list.project_id);
+        const responseP = await fetch(`/api/project/${list.project_id}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
-            var statusEl = document.createElement('p1');
-            statusEl.innerHTML = `Bid Status: ${list.status}`;
-            statusEl.setAttribute('id', `${list.project_id}-bid-status`)
-            bidBoxEl.append(statusEl)
+        const projectBids = await responseP.json();
+        console.log(projectBids);
 
-            var updateButtonEl = document.createElement('button')
-            updateButtonEl.type = 'button'
-            updateButtonEl.setAttribute('id', `${list.id}-update-button`)
-            updateButtonEl.setAttribute('class', `update-bid-button`)
-            updateButtonEl.innerHTML = 'Update Bid'
-            bidBoxEl.append(updateButtonEl)
+        var titleEl = document.createElement("h3");
+        titleEl.innerHTML = projectBids.project_name;
+        $(`#${projectBids.id}-bid-box`).append(titleEl);
+        console.log(projectBids.project_name);
+        console.log(projectBids.project_id);
+      };
 
-            updateButtonEl.addEventListener('click', function() {
-                bidToUpdate.push(this.id.charAt(0))
-                console.log(this.id.charAt(0))
-                modal3()
-            })
-            
-            currentBids.push(list.project_id)
+      loadCertainProject();
+      var bidBoxEl = document.createElement("div");
+      bidBoxEl.className = "bid-box";
+      bidBoxEl.setAttribute("id", `${list.project_id}-bid-box`);
 
-            $('#bid-list').append(bidBoxEl)
-        }
+      var descEl = document.createElement("p1");
+      descEl.innerHTML = `Bid Amount: $${list.bid_amount}`;
+      bidBoxEl.append(descEl);
 
-        if (list.status == 'pending') {
-            $(`#${list.project_id}-bid-status`).css('color', 'orange')
-        } else if (list.status == 'approved') {
-            $(`#${list.project_id}-bid-status`).css('color', 'green')
-        } else {
-            $(`#${list.project_id}-bid-status`).css('color', 'red')
-        }
+      var statusEl = document.createElement("p1");
+      statusEl.innerHTML = `Bid Status: ${list.status}`;
+      statusEl.setAttribute("id", `${list.project_id}-bid-status`);
+      bidBoxEl.append(statusEl);
+
+      if (list.status == 'pending') {
+        var updateButtonEl = document.createElement("button");
+        updateButtonEl.type = "button";
+        updateButtonEl.setAttribute("id", `${list.id}-update-button`);
+        updateButtonEl.setAttribute("class", `update-bid-button`);
+        updateButtonEl.innerHTML = "Update Bid";
+        bidBoxEl.append(updateButtonEl);
+
+        updateButtonEl.addEventListener("click", function () {
+          bidToUpdate.push(this.id.charAt(0));
+          console.log(this.id.charAt(0));
+          modal3();
+        });
+      }
+
+      currentBids.push(list.project_id);
+
+      $("#bid-list").append(bidBoxEl);
     }
-}
 
-$('#bid-submit').on('click', function() {
-    console.log('hello');
-    var bid_amount = $('#defaultForm-number').val();
-    console.log(bid_amount);
-    createBid(bid_amount);
-    location.reload();
-})
+    if (list.status == "pending") {
+      $(`#${list.project_id}-bid-status`).css("color", "orange");
+    } else if (list.status == "approved") {
+      $(`#${list.project_id}-bid-status`).css("color", "green");
+    } else {
+      $(`#${list.project_id}-bid-status`).css("color", "red");
+    }
+  }
+};
+
+$("#bid-submit").on("click", function () {
+  console.log("hello");
+  var bid_amount = $("#defaultForm-number").val();
+  console.log(bid_amount);
+  createBid(bid_amount);
+  location.reload();
+});
 
 const createBid = async (amt) => {
-    console.log(amt)
-    console.log(user_id)
-    console.log(project_id[0])
-    project_id = project_id[0]
-    bid_amount = amt
+  console.log(amt);
+  var user_id = currentUser[0];
+  console.log(project_id[0]);
+  project_id = project_id[0];
+  bid_amount = amt;
 
-    const response = await fetch('/api/bid/create', {
-        method: 'POST',
-        body: JSON.stringify({ project_id, user_id, bid_amount }),
-        headers: { 'Content-Type': 'application/json' },
-    })
-    
-    console.log(response.statusText)
-}
+  const response = await fetch("/api/bid/create", {
+    method: "POST",
+    body: JSON.stringify({ project_id, user_id, bid_amount }),
+    headers: { "Content-Type": "application/json" },
+  });
 
-$('#bid-update').on('click', function() {
-    console.log('hello');
-    var bid_amount = $('#defaultForm-number2').val();
-    console.log(bid_amount);
-    updateBid(bid_amount);
-    location.reload();
-})
+  console.log(response.statusText);
+};
+
+$("#bid-update").on("click", function () {
+  console.log("hello");
+  var bid_amount = $("#defaultForm-number2").val();
+  console.log(bid_amount);
+  updateBid(bid_amount);
+  location.reload();
+});
 
 const updateBid = async (amt) => {
-    console.log(amt)
-    console.log(project_id[0])
-    project_id = project_id[0]
-    bid_amount = amt
+  console.log(amt);
+  console.log(project_id[0]);
+  project_id = project_id[0];
+  bid_amount = amt;
 
-    if (bid_amount > 0) {
-        const response = await fetch(`/api/bid/update/${bidToUpdate}`, {
-            method: 'PUT',
-            body: JSON.stringify({ bid_amount }),
-            headers: { 'Content-Type': 'application/json' },
-        })
+  if (bid_amount > 0) {
+    const response = await fetch(`/api/bid/update/${bidToUpdate}`, {
+      method: "PUT",
+      body: JSON.stringify({ bid_amount }),
+      headers: { "Content-Type": "application/json" },
+    });
+  } else {
+    const repsonse = await fetch(`/api/bid/${bidToUpdate}`, {
+      method: "DELETE",
+    });
+  }
+
+  console.log(response.statusText);
+};
+
+$("#logout").on("click", function (event) {
+  event.preventDefault();
+
+  const logout = async () => {
+    const response = await fetch("/api/user/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      document.location.replace("/");
     } else {
-        const repsonse = await fetch(`/api/bid/${bidToUpdate}`, {
-            method: 'DELETE',
-        })
+      alert(response.statusText);
     }
-    
-    console.log(response.statusText)
-}
+  };
 
-$('#logout').on('click', function(event) {
-    event.preventDefault();
+  logout();
+});
 
-    const logout = async () => {
-        const response = await fetch('/api/user/logout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-        });
-      
-        if (response.ok) {
-          document.location.replace('/');
-        } else {
-          alert(response.statusText);
-        }
-    };
-
-    logout()
-})
-
-loadProjects();  
+loadProjects();
 loadUser();
-loadBids(user_id[0]); 
+loadBids();

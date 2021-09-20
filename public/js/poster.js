@@ -1,185 +1,250 @@
-// var projectModalEl = $('#project-modal');
-// var projectFormEl = $('#project-form');
-// var projectDisplayEl = $('#project-display');
-// var projectNameInputEl = $('#project-name-input');
-// var projectTypeInputEl = $('#project-type-input');
-// var projectDescInputEl = $('#project-desc-input');
-// var dueDateInputEl = $('#due-date-input');
-
-// const { response } = require("express")
-
-// function printProjectData(name, type, desc, dueDate) {
-//     var projectRowEl = $('<tr>');
-  
-//     var projectNameTdEl = $('<td>').addClass('p-2').text(name);
-  
-//     var projectTypeTdEl = $('<td>').addClass('p-2').text(type);
-  
-//     var projectDescInputEl = $('<td>').addClass('p-2').text(desc);
-  
-//     var dueDateTdEl = $('<td>').addClass('p-2').text(dueDate);
-  
-//     var deleteProjectBtn = $('<td>')
-//       .addClass('p-2 delete-project-btn text-center')
-//       .text('X');
-  
-//     projectRowEl.append(
-//       projectNameTdEl,
-//       projectTypeTdEl,
-//       projectDescInputEl,
-//       dueDateTdEl,
-//       deleteProjectBtn
-//     );
-  
-//     projectDisplayEl.append(projectRowEl);
-  
-//     projectModalEl.modal('hide');
-//   }
-
-//   function handleDeleteProject(event) {
-//     console.log(event.target);
-//     var btnClicked = $(event.target);
-//     btnClicked.parent('tr').remove();
-//   }
-
-//   function handleProjectFormSubmit(event) {
-//     event.preventDefault();
-//     // event.stopPropagation();
-//     // $('#project-modal').modal('toggle');
-  
-//     var projectName = projectNameInputEl.val().trim();
-//     var projectType = projectTypeInputEl.val().trim();
-//     var projectDesc = projectDescInputEl.val().trim();
-//     var dueDate = dueDateInputEl.val().trim();
-  
-//     printProjectData(projectName, projectType, projectDesc, dueDate);
-  
-//     projectFormEl[0].reset();
-//   }
-  
-//   projectFormEl.on('submit', handleProjectFormSubmit);
-//   projectDisplayEl.on('click', '.delete-project-btn', handleDeleteProject);
-//   dueDateInputEl.datepicker({ minDate: 1 });
-
-var currentUser = []
-var currentProject = []
+var currentUser = [];
+var currentProject = [];
+console.log(currentProject);
 
 const getCurrentUser = async () => {
   try {
     const response = await fetch(`/current`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
 
-    const projects = await response.json();
-    console.log(projects)
-    console.log(projects.id)
-    currentUser.push(projects.id)
+    const user = await response.json();
+    console.log(user);
+    console.log(user.id);
+    currentUser.unshift(user.id);
+
+    $(".navbar-brand").text(`Hello, ${user.company_name}`).css({
+      color: "white",
+      "font-size": "2vw",
+    });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 const getProjects = async () => {
   try {
     const response = await fetch(`/api/project/`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
 
     const projects = await response.json();
-    console.log(projects)
-    
+    console.log(projects);
+
     for (var i = 0; i < projects.length; i++) {
       if (projects[i].poster_id == currentUser) {
-        console.log(projects[i])
+        console.log(projects[i]);
 
-        var projectBoxEl = document.createElement('div')
-        projectBoxEl.className = 'project-box'
-        projectBoxEl.setAttribute('id', `${projects[i].id}-project`)
-        
-        var titleEl = document.createElement('h3');
+        var projectBoxEl = document.createElement("div");
+        projectBoxEl.className = "project-box";
+        projectBoxEl.setAttribute("id", `${projects[i].id}-project`);
+
+        var titleEl = document.createElement("h3");
         titleEl.innerHTML = projects[i].project_name;
         projectBoxEl.append(titleEl);
 
-        var descEl = document.createElement('p1');
+        var descEl = document.createElement("p1");
         descEl.innerHTML = projects[i].description;
         projectBoxEl.append(descEl);
-        
-        $('#project-list').append(projectBoxEl);
 
-        $('.project-box').on('click', function () {
-          currentProject.push(this.id.charAt(0));
-          getBids()
-        })
+        var statusEl = document.createElement("p1");
+        statusEl.innerHTML = `Project Status: ${projects[i].status}`;
+        projectBoxEl.append(statusEl);
+
+        $("#project-list").append(projectBoxEl);
+
+        $(`#${projects[i].id}-project`).on("click", function () {
+          $("#bid-list").empty();
+          currentProject.unshift(this.id.charAt(0));
+          console.log(this.id.charAt(0));
+          getBids();
+        });
       }
     }
-
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 const getBids = async () => {
   const response = await fetch(`/api/bid/bids`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  })
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const projResponse = await fetch(`/api/project/${currentProject}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const project = await projResponse.json();
+  console.log(project);
 
   const bids = await response.json();
-  console.log(bids)
+  console.log(bids);
 
   for (var i = 0; i < bids.length; i++) {
-    if (bids[i].project_id == currentProject) {
-      var bidBoxEl = document.createElement('div')
-      bidBoxEl.className = 'bid-box'
-      bidBoxEl.setAttribute('id', `${bids[i].id}-bid`)
-      
-      var titleEl = document.createElement('h3');
+    if (
+      bids[i].project_id == currentProject[0] &&
+      project.status !== "closed"
+    ) {
+      var bidBoxEl = document.createElement("div");
+      bidBoxEl.className = "bid-box";
+      bidBoxEl.setAttribute("id", `${bids[i].id}-bid`);
+
+      var titleEl = document.createElement("h3");
       titleEl.innerHTML = `$${bids[i].bid_amount}`;
       bidBoxEl.append(titleEl);
 
-      var companyEl = document.createElement('h4');
-      var bidderInfo = await getBidder(bids[i].user_id)
+      var companyEl = document.createElement("h4");
+      var bidderInfo = await getBidder(bids[i].user_id);
       companyEl.innerHTML = bidderInfo.company_name;
       bidBoxEl.append(companyEl);
 
-      var emailEl = document.createElement('p1');
-      console.log(bids[i].user_id)
+      var emailEl = document.createElement("p1");
+      console.log(bids[i].user_id);
       emailEl.innerHTML = await bidderInfo.email;
       bidBoxEl.append(emailEl);
 
-      var statusEl = document.createElement('p1');
-      statusEl.innerHTML = bids[i].status;
-      statusEl.className = 'bid-status';
-      bidBoxEl.append(statusEl);
-      
-      $('#bid-list').append(bidBoxEl);
-      
+      var approveButtonEl = document.createElement("button");
+      approveButtonEl.type = "button";
+      approveButtonEl.setAttribute("id", `${bids[i].id}-button`);
+      approveButtonEl.setAttribute("class", `approve-button`);
+      approveButtonEl.innerHTML = "Approve";
+      bidBoxEl.append(approveButtonEl);
+
+      approveButtonEl.addEventListener("click", function () {
+        closeProject();
+        updateBid(this.id.charAt(0), "approved");
+        window.location.reload();
+      });
+
+      $("#bid-list").append(bidBoxEl);
+    } else if (
+      bids[i].project_id == currentProject[0] &&
+      project.status == "closed" &&
+      bids[i].status !== "approved"
+    ) {
+      updateBid(bids[i].id, "rejected");
+    } else if (
+      bids[i].project_id == currentProject[0] &&
+      project.status == "closed" &&
+      bids[i].status == "approved"
+    ) {
+      var bidBoxEl = document.createElement("div");
+      bidBoxEl.className = "bid-box";
+      bidBoxEl.setAttribute("id", `${bids[i].id}-bid`);
+
+      var titleEl = document.createElement("h3");
+      titleEl.innerHTML = `$${bids[i].bid_amount}`;
+      bidBoxEl.append(titleEl);
+
+      var companyEl = document.createElement("h4");
+      var bidderInfo = await getBidder(bids[i].user_id);
+      companyEl.innerHTML = bidderInfo.company_name;
+      bidBoxEl.append(companyEl);
+
+      var emailEl = document.createElement("p1");
+      console.log(bids[i].user_id);
+      emailEl.innerHTML = await bidderInfo.email;
+      bidBoxEl.append(emailEl);
+      $("#bid-list").append(bidBoxEl);
     }
   }
-}
+};
+
+const updateBid = async (id, status) => {
+  try {
+    const response = await fetch(`/api/bid/update/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ status }),
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const closeProject = async () => {
+  var status = "closed";
+  try {
+    const response = await fetch(`/api/project/update/${currentProject[0]}`, {
+      method: "PUT",
+      body: JSON.stringify({ status }),
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const getBidder = async (user_id) => {
   try {
     const response = await fetch(`/api/user/${user_id}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
 
     const bidder = await response.json();
     console.log(bidder);
     console.log(bidder.company_name);
     return await bidder;
-  
   } catch (err) {
     console.log(err);
   }
+};
+
+function modal() {
+  console.log("Modal is working!");
+  $("#project-modal").modal("toggle");
 }
+
+$("#new-project").on("click", function () {
+  modal();
+});
+
+const newProject = async (project_name, description) => {
+  try {
+    const response = await fetch(`/api/project/`, {
+      method: "POST",
+      body: JSON.stringify({ project_name, description }),
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+$("#create-project").on("click", function (event) {
+  var project_name = $("#project-name-input").val();
+  var description = $("#project-desc-input").val();
+  console.log(project_name);
+  console.log(description);
+
+  newProject(project_name, description);
+});
+
+$("#logout").on("click", function (event) {
+  event.preventDefault();
+
+  const logout = async () => {
+    const response = await fetch("/api/user/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      document.location.replace("/");
+    } else {
+      alert(response.statusText);
+    }
+  };
+
+  logout();
+});
 
 getBids();
 getCurrentUser();
 getProjects();
-  
-
-  

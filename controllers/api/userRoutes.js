@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const { User } = require("../../models");
-const withAuth = require("../../utils/auth");
+const {withAuth, authPoster, authBidder} = require('../../utils/auth');
 const path = require("path");
 
-router.get("/", async (req, res) => {
+router.get("/", withAuth, async (req, res) => {
   console.log("GET /api/user/");
 
   try {
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", withAuth, async (req, res) => {
   console.log("POST /api/user/");
 
   try {
@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", withAuth, async (req, res) => {
   console.log("GET /api/user/:id");
 
   try {
@@ -70,24 +70,6 @@ router.post("/create", async (req, res) => {
       req.session.logged_in = true;
 
       res.status(200).json(user);
-
-      if (user.is_poster == false) {
-        console.log("---------------------------");
-        console.log(req.session.is_poster);
-        console.log(path.join(__dirname, "/../public/bidder.html"));
-
-        res.redirect("/bidder");
-      } else if (user.is_poster == true) {
-        console.log("---------------------------");
-        console.log(req.session.is_poster);
-        console.log(path.join(__dirname, "/../public/poster.html"));
-
-        res.redirect("/poster");
-      } else {
-        console.log("not logged in");
-
-        res.redirect("/");
-      }
     });
   } catch (err) {
     console.log(err);

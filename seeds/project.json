@@ -3,18 +3,21 @@
         "id": 1,
         "project_name": "School Windows Repair",
         "description": "This is a project to restore the windows.",
+        "status": "open",
         "poster_id": 1
     },
     {
         "id": 2,
         "project_name": "Building Roof Repair",
         "description": "This is a project to change the roofing at the municipal building.",
+        "status": "open",
         "poster_id": 2
     },
     {
         "id": 3,
         "project_name": "New School Building",
         "description": "This is a project to build a new school.",
+        "status": "open",
         "poster_id": 1
     }
 ]
