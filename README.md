@@ -27,13 +27,17 @@ If the user is a bidder, they will be taken to a page displaying a board with al
 
 ## Questions
 
-If you have any questions regarding the application that are not answered in this README, you can contact me at: 
+If you have any questions regarding the application that are not answered in this README, you can contact us at: 
 
 github.com/ccardinale98
+github.com/jihoonswdev
+github.com/adwait7tare/
 
 or
 
 ccardinale98@gmail.com
+jihoonswdev@gmail.com
+adwait7tare@gmail.com
 
 ## Links
 
